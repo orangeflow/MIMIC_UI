@@ -414,7 +414,7 @@ body {
 .use-button {
   width: 368px;
   height: 80px;
-  background-color: var(--tab-active-color);
+  background-color: #F45D4C !important;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -426,22 +426,36 @@ body {
   opacity: 0.5;
 }
 
+[data-theme="dark"] .use-button {
+  background-color: #FF5A4D !important;
+}
+
 .use-button:not(:disabled) {
-  opacity: 1;
+  opacity: 1 !important;
+  background-color: #F45D4C !important;
+}
+
+[data-theme="dark"] .use-button:not(:disabled) {
+  background-color: #FF5A4D !important;
 }
 
 .use-button:hover:not(:disabled) {
-  opacity: 0.9;
+  opacity: 0.9 !important;
 }
 
 .use-button:active:not(:disabled) {
   transform: scale(0.98);
-  opacity: 0.8;
+  opacity: 0.8 !important;
 }
 
 .use-button:disabled {
-  opacity: 0.5;
+  opacity: 0.5 !important;
   cursor: not-allowed;
+  background-color: #F45D4C !important;
+}
+
+[data-theme="dark"] .use-button:disabled {
+  background-color: #FF5A4D !important;
 }
 
 .button-text {

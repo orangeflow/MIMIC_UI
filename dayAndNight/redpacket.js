@@ -186,10 +186,8 @@ class RedPacketManager {
     if (useButton) {
       if (this.selectedId) {
         useButton.disabled = false;
-        useButton.style.opacity = '1';
       } else {
         useButton.disabled = true;
-        useButton.style.opacity = '0.5';
       }
     }
   }
