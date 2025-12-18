@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>请选择利是封面 - Red Packet Cover Selection</title>
+  <link rel="stylesheet" href="redpacket.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="time-section">
+        <span class="time-text">9:41</span>
+      </div>
+      <div class="status-icons">
+        <svg class="signal-icon" width="17" height="10" viewBox="0 0 17 10" fill="none">
+          <rect x="0" y="7" width="3" height="3" rx="1" fill="currentColor"/>
+          <rect x="5" y="4" width="3" height="6" rx="1" fill="currentColor"/>
+          <rect x="10" y="2" width="3" height="8" rx="1" fill="currentColor"/>
+          <rect x="15" y="0" width="2" height="10" rx="1" fill="currentColor"/>
+        </svg>
+        <svg class="wifi-icon" width="15" height="11" viewBox="0 0 15 11" fill="none">
+          <path d="M7.5 0C4.5 0 2.1 1.2 0.5 3L2.1 4.6C3.3 3.1 5.2 2.1 7.5 2.1C9.8 2.1 11.7 3.1 12.9 4.6L14.5 3C12.9 1.2 10.5 0 7.5 0Z" fill="currentColor"/>
+          <path d="M7.5 4.2C5.8 4.2 4.3 4.9 3.3 6L4.9 7.6C5.5 6.9 6.4 6.4 7.5 6.4C8.6 6.4 9.5 6.9 10.1 7.6L11.7 6C10.7 4.9 9.2 4.2 7.5 4.2Z" fill="currentColor"/>
+          <path d="M7.5 8.5C7.1 8.5 6.8 8.8 6.8 9.2C6.8 9.6 7.1 9.9 7.5 9.9C7.9 9.9 8.2 9.6 8.2 9.2C8.2 8.8 7.9 8.5 7.5 8.5Z" fill="currentColor"/>
+        </svg>
+        <svg class="battery-icon" width="24" height="11" viewBox="0 0 24 11" fill="none">
+          <rect x="1" y="2" width="20" height="7" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <rect x="22" y="4" width="1.5" height="3" rx="0.5" fill="currentColor"/>
+          <rect x="2.5" y="3.5" width="17" height="6" rx="0.5" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+      <button class="back-button" id="backButton" aria-label="返回">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <h1 class="nav-title">请选择利是封面</h1>
+      <div class="nav-spacer"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <button class="tab-button active" data-tab="hot">
+        <span class="tab-text">常用热门</span>
+        <div class="tab-indicator"></div>
+      </button>
+      <button class="tab-button" data-tab="daily">
+        <span class="tab-text">日常祝福</span>
+        <div class="tab-indicator"></div>
+      </button>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Red Packet Grid -->
+      <div class="redpacket-grid" id="redpacketGrid">
+        <!-- Card 1: 中国银行(香港) -->
+        <div class="redpacket-card" data-id="1">
+          <div class="card-image bank-china">
+            <img src="https://www.figma.com/api/mcp/asset/c7245f59-6224-4948-be31-2a3d0ec544d4" alt="中国银行(香港)" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">中国银行(香港)</div>
+        </div>
+
+        <!-- Card 2: Club 100 -->
+        <div class="redpacket-card" data-id="2">
+          <div class="card-image club-100">
+            <img src="https://www.figma.com/api/mcp/asset/faba4f86-6d23-4430-b73a-41a8f7b540d4" alt="Club 100" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">Club 100</div>
+        </div>
+
+        <!-- Card 3: 大家乐 -->
+        <div class="redpacket-card" data-id="3">
+          <div class="card-image cafe-coral">
+            <img src="https://www.figma.com/api/mcp/asset/1ff5e3d2-db15-484e-9954-14391b193e16" alt="大家乐" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">大家乐</div>
+        </div>
+
+        <!-- Card 4: PUBG (Lion Dance) -->
+        <div class="redpacket-card" data-id="4">
+          <div class="card-image pubg-lion">
+            <img src="https://www.figma.com/api/mcp/asset/dbf48745-b836-4b3e-b04f-ee6d3de4f4bb" alt="PUBG" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">PUBG</div>
+        </div>
+
+        <!-- Card 5: 新鸿基地产 -->
+        <div class="redpacket-card" data-id="5">
+          <div class="card-image shkp">
+            <img src="https://www.figma.com/api/mcp/asset/cda1a053-0126-4e92-855e-4c104106a8c6" alt="新鸿基地产" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">一二三四五六七八九</div>
+        </div>
+
+        <!-- Card 6: PUBG (Mahjong) -->
+        <div class="redpacket-card" data-id="6">
+          <div class="card-image pubg-mahjong">
+            <img src="https://www.figma.com/api/mcp/asset/8d53b026-88b1-4153-8834-f158bbf7f1d5" alt="PUBG" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">PUBG</div>
+        </div>
+
+        <!-- Card 7: ovo -->
+        <div class="redpacket-card" data-id="7">
+          <div class="card-image ovo">
+            <img src="https://www.figma.com/api/mcp/asset/47f58832-f977-4902-8f06-e711c58f5f26" alt="ovo" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">ovo</div>
+        </div>
+
+        <!-- Card 8: KFC -->
+        <div class="redpacket-card" data-id="8">
+          <div class="card-image kfc">
+            <img src="https://www.figma.com/api/mcp/asset/aedfca12-0aa3-4bb9-bd23-74c770978297" alt="KFC" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">KFC</div>
+        </div>
+
+        <!-- Card 9: 鸿运当牛 -->
+        <div class="redpacket-card" data-id="9">
+          <div class="card-image ox-luck">
+            <img src="https://www.figma.com/api/mcp/asset/0d9a8d2f-eadd-4020-b849-e008ecf27f9d" alt="鸿运当牛" class="card-bg-image">
+            <div class="card-placeholder"></div>
+          </div>
+          <div class="card-name">鸿运当牛</div>
+        </div>
+      </div>
+
+      <!-- Bottom Info Text -->
+      <div class="info-text">
+        选择利是封面可在发利是时使用
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="action-section">
+      <button class="use-button" id="useButton">
+        <span class="button-text">使用</span>
+      </button>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+      <svg class="theme-icon sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M10 2V4M10 16V18M18 10H16M4 10H2M15.657 4.343L14.243 5.757M5.757 14.243L4.343 15.657M15.657 15.657L14.243 14.243M5.757 5.757L4.343 4.343" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <svg class="theme-icon moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M17.293 13.293C16.378 14.208 15.19 14.75 13.9 14.75C10.521 14.75 7.75 11.979 7.75 8.6C7.75 7.31 8.292 6.122 9.207 5.207C8.207 4.207 6.9 3.75 5.5 3.75C2.186 3.75 0 5.936 0 9.25C0 12.564 2.186 14.75 5.5 14.75C8.814 14.75 11 12.564 11 9.25C11 7.85 10.543 6.543 9.543 5.543" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <script src="redpacket.js"></script>
+</body>
+</html>
+
