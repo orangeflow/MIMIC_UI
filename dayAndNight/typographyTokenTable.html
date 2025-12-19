@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeUI 文字样式 Token 表</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #07C160 0%, #1AAD19 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .header-nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .header-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .header-nav-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .toolbar {
+      padding: 20px 40px;
+      background: #fafafa;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tab-btn {
+      padding: 8px 20px;
+      border: 2px solid #07C160;
+      border-radius: 6px;
+      background: white;
+      color: #07C160;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: #f0fdf4;
+    }
+
+    .tab-btn.active {
+      background: #07C160;
+      color: white;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid #e5e5e5;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #07C160;
+      color: #07C160;
+    }
+
+    .filter-btn.active {
+      background: #07C160;
+      color: white;
+      border-color: #07C160;
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-box {
+      padding: 8px 16px;
+      border: 2px solid #e5e5e5;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 300px;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #07C160;
+    }
+
+    .export-btn {
+      padding: 8px 16px;
+      background: #07C160;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .export-btn:hover {
+      background: #06AD56;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-size: 14px;
+    }
+
+    .token-table th {
+      background: #f7f7f7;
+      font-weight: 600;
+      color: #1a1a1a;
+      padding: 16px;
+      text-align: left;
+      border-bottom: 2px solid #e5e5e5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .token-table td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .token-table tr:hover {
+      background: #fafafa;
+    }
+
+    .token-name {
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: #07C160;
+      background: #f0fdf4;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .typography-preview {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px;
+      background: #fafafa;
+      border-radius: 6px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .typography-preview-text {
+      flex: 1;
+    }
+
+    .typography-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: #666;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      min-width: 200px;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .spec-label {
+      color: #999;
+    }
+
+    .spec-value {
+      color: #333;
+      font-weight: 500;
+    }
+
+    .usage-scenarios {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .component-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .component-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .footer {
+      padding: 24px 40px;
+      background: #fafafa;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #07C160;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar-left,
+      .toolbar-right {
+        width: 100%;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .token-table {
+        font-size: 12px;
+      }
+
+      .token-table th,
+      .token-table td {
+        padding: 12px 8px;
+      }
+
+      .header-nav {
+        position: static;
+        justify-content: center;
+        margin-bottom: 16px;
+        top: auto;
+        right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-nav">
+        <a href="colorToken.html" class="header-nav-link">
+          <span>🎨</span>
+          <span>色彩体系</span>
+        </a>
+        <a href="designTokenTable.html" class="header-nav-link">
+          <span>📊</span>
+          <span>Token 表</span>
+        </a>
+      </div>
+      <h1>WeUI 文字样式 Token 表</h1>
+      <p>基于微信设计规范的字体系统 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank" style="color: rgba(255,255,255,0.9); text-decoration: underline;">参考官方文档</a></p>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="tab-btn active" data-tab="typography">字体样式</button>
+        <button class="tab-btn" data-tab="text-color">文字颜色</button>
+        <button class="tab-btn" data-tab="combinations">组合推荐</button>
+        <div style="width: 1px; height: 24px; background: #e5e5e5; margin: 0 8px;"></div>
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="light">白天模式</button>
+        <button class="filter-btn" data-filter="dark">暗黑模式</button>
+      </div>
+      <div class="toolbar-right">
+        <input type="text" class="search-box" placeholder="搜索 Token 名称、样式名称或组件..." id="searchInput">
+        <button class="export-btn" onclick="exportToJSON()">导出 JSON</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div id="content">
+        <!-- 表格将通过 JavaScript 动态生成 -->
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>WeUI 文字样式体系 | 基于微信设计规范 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank">参考官方文档</a> | 最后更新: 2025</p>
+    </div>
+  </div>
+
+  <script>
+    // 文字样式 Token 数据
+    const typographyTokens = [
+      // 字体大小
+      {
+        tokenName: 'FONT-SIZE-01',
+        category: '字体大小',
+        categoryEn: 'Font Size',
+        name: '超大标题',
+        nameEn: 'Extra Large Title',
+        fontSize: '32px',
+        fontWeight: '700',
+        lineHeight: '1.2',
+        usage: '页面主标题、重要提示标题',
+        components: ['标题', '页面']
+      },
+      {
+        tokenName: 'FONT-SIZE-02',
+        category: '字体大小',
+        categoryEn: 'Font Size',
+        name: '大标题',
+        nameEn: 'Large Title',
+        fontSize: '24px',
+        fontWeight: '600',
+        lineHeight: '1.3',
+        usage: '章节标题、对话框标题',
+        components: ['标题', '对话框']
+      },
+      {
+        tokenName: 'FONT-SIZE-03',
+        category: '字体大小',
+        categoryEn: 'Font Size',
+        name: '标题',
+        nameEn: 'Title',
+        fontSize: '20px',
+        fontWeight: '600',
+        lineHeight: '1.4',
+        usage: '列表项标题、卡片标题',
+        components: ['标题', '列表', '卡片']
+      },
+      {
+        tokenName: 'FONT-SIZE-04',
+        category: '字体大小',
+        categoryEn: 'Font Size',
+        name: '正文',
+        nameEn: 'Body',
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        usage: '正文内容、描述文字',
+        components: ['正文', '描述']
+      },
+      {
+        tokenName: 'FONT-SIZE-05',
+        category: '字体大小',
+        categoryEn: 'Font Size',
+        name: '小正文',
+        nameEn: 'Small Body',
+        fontSize: '14px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        usage: '辅助说明、次要内容',
+        components: ['辅助', '说明']
+      },
+      {
+        tokenName: 'FONT-SIZE-06',
+        category: '字体大小',
+        categoryEn: 'Font Size',
+        name: '辅助文字',
+        nameEn: 'Caption',
+        fontSize: '12px',
+        fontWeight: '400',
+        lineHeight: '1.4',
+        usage: '提示文字、标签、时间',
+        components: ['提示', '标签']
+      },
+      // 字重
+      {
+        tokenName: 'FONT-WEIGHT-01',
+        category: '字重',
+        categoryEn: 'Font Weight',
+        name: '细体',
+        nameEn: 'Thin',
+        fontSize: '16px',
+        fontWeight: '300',
+        lineHeight: '1.5',
+        usage: '特殊场景的细体文字',
+        components: ['特殊']
+      },
+      {
+        tokenName: 'FONT-WEIGHT-02',
+        category: '字重',
+        categoryEn: 'Font Weight',
+        name: '常规',
+        nameEn: 'Regular',
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        usage: '正文、描述文字',
+        components: ['正文', '描述']
+      },
+      {
+        tokenName: 'FONT-WEIGHT-03',
+        category: '字重',
+        categoryEn: 'Font Weight',
+        name: '中等',
+        nameEn: 'Medium',
+        fontSize: '16px',
+        fontWeight: '500',
+        lineHeight: '1.5',
+        usage: '强调文字、按钮文字',
+        components: ['强调', '按钮']
+      },
+      {
+        tokenName: 'FONT-WEIGHT-04',
+        category: '字重',
+        categoryEn: 'Font Weight',
+        name: '半粗',
+        nameEn: 'Semi Bold',
+        fontSize: '16px',
+        fontWeight: '600',
+        lineHeight: '1.5',
+        usage: '标题、重要文字',
+        components: ['标题', '重要']
+      },
+      {
+        tokenName: 'FONT-WEIGHT-05',
+        category: '字重',
+        categoryEn: 'Font Weight',
+        name: '粗体',
+        nameEn: 'Bold',
+        fontSize: '16px',
+        fontWeight: '700',
+        lineHeight: '1.5',
+        usage: '强调标题、重要提示',
+        components: ['标题', '强调']
+      },
+      // 行高
+      {
+        tokenName: 'LINE-HEIGHT-01',
+        category: '行高',
+        categoryEn: 'Line Height',
+        name: '紧凑',
+        nameEn: 'Tight',
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.2',
+        usage: '标题、单行文字',
+        components: ['标题']
+      },
+      {
+        tokenName: 'LINE-HEIGHT-02',
+        category: '行高',
+        categoryEn: 'Line Height',
+        name: '标准',
+        nameEn: 'Normal',
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        usage: '正文、多行文字',
+        components: ['正文']
+      },
+      {
+        tokenName: 'LINE-HEIGHT-03',
+        category: '行高',
+        categoryEn: 'Line Height',
+        name: '宽松',
+        nameEn: 'Loose',
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.6',
+        usage: '长文本、文章内容',
+        components: ['文章', '长文本']
+      },
+      // 文字颜色（纯颜色 Token）
+      {
+        tokenName: 'TXT-01',
+        category: '文字颜色',
+        categoryEn: 'Text Color',
+        name: '主要文本',
+        nameEn: 'Primary Text',
+        color: 'rgba(0, 0, 0, 0.9)',
+        colorDark: 'rgba(255, 255, 255, 0.9)',
+        usage: '页面标题、重要内容、导航栏标题',
+        components: ['标题', '导航栏']
+      },
+      {
+        tokenName: 'TXT-02',
+        category: '文字颜色',
+        categoryEn: 'Text Color',
+        name: '次要文本',
+        nameEn: 'Secondary Text',
+        color: 'rgba(0, 0, 0, 0.6)',
+        colorDark: 'rgba(255, 255, 255, 0.6)',
+        usage: '描述文字、列表项副标题、标签页未选中',
+        components: ['描述', '列表', '标签页']
+      },
+      {
+        tokenName: 'TXT-03',
+        category: '文字颜色',
+        categoryEn: 'Text Color',
+        name: '辅助文本',
+        nameEn: 'Tertiary Text',
+        color: 'rgba(0, 0, 0, 0.4)',
+        colorDark: 'rgba(255, 255, 255, 0.4)',
+        usage: '提示文字、占位符、辅助说明',
+        components: ['提示', '占位符']
+      },
+      {
+        tokenName: 'TXT-04',
+        category: '文字颜色',
+        categoryEn: 'Text Color',
+        name: '禁用文本',
+        nameEn: 'Disabled Text',
+        color: 'rgba(0, 0, 0, 0.2)',
+        colorDark: 'rgba(255, 255, 255, 0.2)',
+        usage: '禁用按钮文字、不可用状态文字',
+        components: ['按钮', '禁用状态']
+      }
+    ];
+
+    // 常见组合推荐
+    const recommendedCombinations = [
+      {
+        name: '超大标题',
+        nameEn: 'Extra Large Title',
+        typographyToken: 'FONT-SIZE-01',
+        colorToken: 'TXT-01',
+        usage: '页面主标题、重要提示标题',
+        components: ['标题', '页面'],
+        fontSize: '32px',
+        fontWeight: '700',
+        lineHeight: '1.2',
+        color: 'rgba(0, 0, 0, 0.9)',
+        colorDark: 'rgba(255, 255, 255, 0.9)'
+      },
+      {
+        name: '大标题',
+        nameEn: 'Large Title',
+        typographyToken: 'FONT-SIZE-02',
+        colorToken: 'TXT-01',
+        usage: '章节标题、对话框标题',
+        components: ['标题', '对话框'],
+        fontSize: '24px',
+        fontWeight: '600',
+        lineHeight: '1.3',
+        color: 'rgba(0, 0, 0, 0.9)',
+        colorDark: 'rgba(255, 255, 255, 0.9)'
+      },
+      {
+        name: '标题',
+        nameEn: 'Title',
+        typographyToken: 'FONT-SIZE-03',
+        colorToken: 'TXT-01',
+        usage: '列表项标题、卡片标题',
+        components: ['标题', '列表', '卡片'],
+        fontSize: '20px',
+        fontWeight: '600',
+        lineHeight: '1.4',
+        color: 'rgba(0, 0, 0, 0.9)',
+        colorDark: 'rgba(255, 255, 255, 0.9)'
+      },
+      {
+        name: '正文',
+        nameEn: 'Body',
+        typographyToken: 'FONT-SIZE-04',
+        colorToken: 'TXT-01',
+        usage: '正文内容、描述文字',
+        components: ['正文', '描述'],
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        color: 'rgba(0, 0, 0, 0.9)',
+        colorDark: 'rgba(255, 255, 255, 0.9)'
+      },
+      {
+        name: '小正文',
+        nameEn: 'Small Body',
+        typographyToken: 'FONT-SIZE-05',
+        colorToken: 'TXT-02',
+        usage: '辅助说明、次要内容',
+        components: ['辅助', '说明'],
+        fontSize: '14px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        color: 'rgba(0, 0, 0, 0.6)',
+        colorDark: 'rgba(255, 255, 255, 0.6)'
+      },
+      {
+        name: '辅助文字',
+        nameEn: 'Caption',
+        typographyToken: 'FONT-SIZE-06',
+        colorToken: 'TXT-03',
+        usage: '提示文字、标签、时间',
+        components: ['提示', '标签'],
+        fontSize: '12px',
+        fontWeight: '400',
+        lineHeight: '1.4',
+        color: 'rgba(0, 0, 0, 0.4)',
+        colorDark: 'rgba(255, 255, 255, 0.4)'
+      },
+      {
+        name: '禁用文本',
+        nameEn: 'Disabled Text',
+        typographyToken: 'FONT-SIZE-04',
+        colorToken: 'TXT-04',
+        usage: '禁用按钮文字、不可用状态文字',
+        components: ['按钮', '禁用状态'],
+        fontSize: '16px',
+        fontWeight: '400',
+        lineHeight: '1.5',
+        color: 'rgba(0, 0, 0, 0.2)',
+        colorDark: 'rgba(255, 255, 255, 0.2)'
+      }
+    ];
+
+    let currentTab = 'typography';
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    // 初始化
+    function init() {
+      try {
+        updateFilterButtons();
+        renderTokens();
+        setupEventListeners();
+      } catch (error) {
+        console.error('Initialization error:', error);
+        const content = document.getElementById('content');
+        if (content) {
+          content.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">⚠️</div>
+              <p>初始化错误: ${error.message}</p>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // 设置事件监听
+    function setupEventListeners() {
+      // Tab 按钮
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentTab = btn.getAttribute('data-tab');
+          // 更新筛选按钮显示状态
+          updateFilterButtons();
+          renderTokens();
+        });
+      });
+
+      // 筛选按钮
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-filter');
+          renderTokens();
+        });
+      });
+
+      // 搜索框
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          currentSearch = e.target.value.trim();
+          renderTokens();
+        });
+      }
+    }
+
+    // 更新筛选按钮显示状态
+    function updateFilterButtons() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      if (currentTab === 'typography' || currentTab === 'combinations') {
+        // 字体样式和组合推荐不区分白天暗黑，禁用筛选按钮
+        filterButtons.forEach(btn => {
+          btn.style.opacity = '0.5';
+          btn.style.pointerEvents = 'none';
+        });
+      } else {
+        // 文字颜色区分白天暗黑，启用筛选按钮
+        filterButtons.forEach(btn => {
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+        });
+      }
+    }
+
+    // 筛选 Token
+    function filterTokens() {
+      return typographyTokens.filter(token => {
+        // Tab 过滤
+        if (currentTab === 'typography') {
+          // 字体样式：字体大小、字重、行高
+          if (token.category === '文字颜色') {
+            return false;
+          }
+        } else if (currentTab === 'text-color') {
+          // 文字颜色
+          if (token.category !== '文字颜色') {
+            return false;
+          }
+          
+          // 文字颜色需要根据筛选模式过滤
+          if (currentFilter === 'light') {
+            // 只显示有 color 的 Token
+            if (!token.color) {
+              return false;
+            }
+          } else if (currentFilter === 'dark') {
+            // 只显示有 colorDark 的 Token
+            if (!token.colorDark) {
+              return false;
+            }
+          }
+        } else if (currentTab === 'combinations') {
+          // 组合推荐 Tab 不显示基础 Token
+          return false;
+        }
+
+        // 搜索过滤
+        if (currentSearch) {
+          const searchLower = currentSearch.toLowerCase();
+          const matchTokenName = token.tokenName && token.tokenName.toLowerCase().includes(searchLower);
+          const matchName = token.name.toLowerCase().includes(searchLower) ||
+                           token.nameEn.toLowerCase().includes(searchLower);
+          const matchCategory = token.category.toLowerCase().includes(searchLower);
+          const matchComponents = token.components.some(comp => comp.toLowerCase().includes(searchLower));
+          
+          if (!matchTokenName && !matchName && !matchCategory && !matchComponents) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // 渲染 Token 表格
+    function renderTokens() {
+      const content = document.getElementById('content');
+      if (!content) return;
+
+      // 如果是组合推荐 Tab，渲染组合推荐
+      if (currentTab === 'combinations') {
+        renderCombinations();
+        return;
+      }
+
+      const filteredTokens = filterTokens();
+      
+      if (filteredTokens.length === 0) {
+        content.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <p>未找到匹配的文字样式 Token</p>
+          </div>
+        `;
+        return;
+      }
+
+      const table = document.createElement('table');
+      table.className = 'token-table';
+
+      // 表头
+      const thead = document.createElement('thead');
+      thead.innerHTML = `
+        <tr>
+          <th style="width: 120px;">Token 名称</th>
+          <th style="width: 150px;">名称</th>
+          <th style="width: 400px;">样式预览</th>
+          <th>使用场景</th>
+          <th style="width: 200px;">使用的组件</th>
+        </tr>
+      `;
+
+      // 表体
+      const tbody = document.createElement('tbody');
+      filteredTokens.forEach(token => {
+        try {
+          const row = createTableRow(token);
+          tbody.appendChild(row);
+        } catch (error) {
+          console.error('Error creating table row for token:', token, error);
+        }
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+
+      content.innerHTML = '';
+      content.appendChild(table);
+    }
+
+    // 渲染组合推荐
+    function renderCombinations() {
+      const content = document.getElementById('content');
+      if (!content) return;
+
+      let filteredCombinations = recommendedCombinations;
+
+      // 搜索过滤
+      if (currentSearch) {
+        const searchLower = currentSearch.toLowerCase();
+        filteredCombinations = recommendedCombinations.filter(combo => {
+          const matchName = combo.name.toLowerCase().includes(searchLower) ||
+                           combo.nameEn.toLowerCase().includes(searchLower);
+          const matchTypography = combo.typographyToken.toLowerCase().includes(searchLower);
+          const matchColor = combo.colorToken.toLowerCase().includes(searchLower);
+          const matchUsage = combo.usage.toLowerCase().includes(searchLower);
+          const matchComponents = combo.components.some(comp => comp.toLowerCase().includes(searchLower));
+          
+          return matchName || matchTypography || matchColor || matchUsage || matchComponents;
+        });
+      }
+
+      if (filteredCombinations.length === 0) {
+        content.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <p>未找到匹配的组合推荐</p>
+          </div>
+        `;
+        return;
+      }
+
+      // 添加说明
+      const infoBox = document.createElement('div');
+      infoBox.style.cssText = 'background: #f0fdf4; border: 1px solid #07C160; border-radius: 8px; padding: 16px; margin-bottom: 24px;';
+      infoBox.innerHTML = `
+        <div style="display: flex; align-items: start; gap: 12px;">
+          <span style="font-size: 20px;">💡</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #07C160; margin-bottom: 8px;">组合推荐说明</div>
+            <div style="font-size: 14px; color: #666; line-height: 1.6;">
+              以下是根据 WeUI 设计规范和常见使用场景推荐的字体样式与文字颜色组合。
+              这些组合是<strong>推荐使用</strong>的，但并非强制绑定，你可以根据实际需求灵活调整。
+            </div>
+          </div>
+        </div>
+      `;
+
+      const table = document.createElement('table');
+      table.className = 'token-table';
+
+      // 表头
+      const thead = document.createElement('thead');
+      thead.innerHTML = `
+        <tr>
+          <th style="width: 150px;">组合名称</th>
+          <th style="width: 200px;">Token 组合</th>
+          <th style="width: 450px;">样式预览</th>
+          <th>使用场景</th>
+          <th style="width: 200px;">使用的组件</th>
+        </tr>
+      `;
+
+      // 表体
+      const tbody = document.createElement('tbody');
+      filteredCombinations.forEach(combo => {
+        try {
+          const row = createCombinationRow(combo);
+          tbody.appendChild(row);
+        } catch (error) {
+          console.error('Error creating combination row:', combo, error);
+        }
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+
+      content.innerHTML = '';
+      content.appendChild(infoBox);
+      content.appendChild(table);
+    }
+
+    // 创建组合推荐行
+    function createCombinationRow(combo) {
+      const row = document.createElement('tr');
+      
+      // 构建样式预览
+      const previewHTML = `
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="typography-preview" style="background: white; border: 1px solid #e5e5e5;">
+            <div class="typography-preview-text" style="font-size: ${combo.fontSize}; font-weight: ${combo.fontWeight}; line-height: ${combo.lineHeight}; color: ${combo.color};">
+              示例文本 Example Text
+            </div>
+            <div class="typography-specs">
+              <div class="spec-item">
+                <span class="spec-label">☀️ 白天</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">字号:</span>
+                <span class="spec-value">${combo.fontSize}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">字重:</span>
+                <span class="spec-value">${combo.fontWeight}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">行高:</span>
+                <span class="spec-value">${combo.lineHeight}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">颜色:</span>
+                <span class="spec-value">${combo.color}</span>
+              </div>
+            </div>
+          </div>
+          <div class="typography-preview" style="background: #1a1a1a; border: 1px solid #38383a;">
+            <div class="typography-preview-text" style="font-size: ${combo.fontSize}; font-weight: ${combo.fontWeight}; line-height: ${combo.lineHeight}; color: ${combo.colorDark};">
+              示例文本 Example Text
+            </div>
+            <div class="typography-specs">
+              <div class="spec-item">
+                <span class="spec-label" style="color: #aeaeae;">🌙 暗黑</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label" style="color: #aeaeae;">字号:</span>
+                <span class="spec-value" style="color: #aeaeae;">${combo.fontSize}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label" style="color: #aeaeae;">字重:</span>
+                <span class="spec-value" style="color: #aeaeae;">${combo.fontWeight}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label" style="color: #aeaeae;">行高:</span>
+                <span class="spec-value" style="color: #aeaeae;">${combo.lineHeight}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label" style="color: #aeaeae;">颜色:</span>
+                <span class="spec-value" style="color: #aeaeae;">${combo.colorDark}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      row.innerHTML = `
+        <td>
+          <div>
+            <div style="font-weight: 500; margin-bottom: 4px;">${combo.name}</div>
+            <div style="font-size: 12px; color: #999;">${combo.nameEn}</div>
+          </div>
+        </td>
+        <td>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div>
+              <span style="font-size: 12px; color: #999;">字体样式:</span>
+              <span class="token-name" style="margin-left: 6px;">${combo.typographyToken}</span>
+            </div>
+            <div>
+              <span style="font-size: 12px; color: #999;">文字颜色:</span>
+              <span class="token-name" style="margin-left: 6px;">${combo.colorToken}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          ${previewHTML}
+        </td>
+        <td>
+          <div class="usage-scenarios">${combo.usage}</div>
+        </td>
+        <td>
+          <div class="component-tags">
+            ${combo.components.map(comp => `<span class="component-tag">${comp}</span>`).join('')}
+          </div>
+        </td>
+      `;
+
+      return row;
+    }
+
+    // 创建表格行
+    function createTableRow(token) {
+      const row = document.createElement('tr');
+      
+      const isColorOnly = token.category === '文字颜色' && !token.fontSize;
+      
+      // 构建样式预览
+      let previewHTML = '';
+      
+      if (isColorOnly) {
+        // 纯颜色 Token - 只显示颜色预览
+        if (currentFilter === 'all') {
+          previewHTML = `
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="typography-preview" style="background: white; border: 1px solid #e5e5e5;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div style="width: 60px; height: 60px; border-radius: 6px; background: ${token.color}; border: 1px solid #e5e5e5; flex-shrink: 0;"></div>
+                  <div class="typography-specs" style="flex: 1;">
+                    <div class="spec-item">
+                      <span class="spec-label">☀️ 白天</span>
+                    </div>
+                    <div class="spec-item">
+                      <span class="spec-label">颜色:</span>
+                      <span class="spec-value">${token.color}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="typography-preview" style="background: #1a1a1a; border: 1px solid #38383a;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div style="width: 60px; height: 60px; border-radius: 6px; background: ${token.colorDark}; border: 1px solid #38383a; flex-shrink: 0;"></div>
+                  <div class="typography-specs" style="flex: 1;">
+                    <div class="spec-item">
+                      <span class="spec-label" style="color: #aeaeae;">🌙 暗黑</span>
+                    </div>
+                    <div class="spec-item">
+                      <span class="spec-label" style="color: #aeaeae;">颜色:</span>
+                      <span class="spec-value" style="color: #aeaeae;">${token.colorDark}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          const color = currentFilter === 'dark' ? token.colorDark : token.color;
+          const bgColor = currentFilter === 'dark' ? '#1a1a1a' : 'white';
+          const borderColor = currentFilter === 'dark' ? '#38383a' : '#e5e5e5';
+          const textColor = currentFilter === 'dark' ? '#aeaeae' : '#666';
+          const modeLabel = currentFilter === 'dark' ? '🌙 暗黑' : '☀️ 白天';
+          
+          previewHTML = `
+            <div class="typography-preview" style="background: ${bgColor}; border: 1px solid ${borderColor};">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 60px; height: 60px; border-radius: 6px; background: ${color}; border: 1px solid ${borderColor}; flex-shrink: 0;"></div>
+                <div class="typography-specs" style="flex: 1;">
+                  <div class="spec-item">
+                    <span class="spec-label" style="color: ${textColor};">${modeLabel}</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label" style="color: ${textColor};">颜色:</span>
+                    <span class="spec-value" style="color: ${textColor};">${color}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        // 字体样式 Token - 显示样式预览（不区分白天暗黑，不包含颜色）
+        const previewTextColor = '#333';
+        
+        previewHTML = `
+          <div class="typography-preview" style="background: white; border: 1px solid #e5e5e5;">
+            <div class="typography-preview-text" style="font-size: ${token.fontSize}; font-weight: ${token.fontWeight}; line-height: ${token.lineHeight}; color: ${previewTextColor};">
+              示例文本 Example Text
+            </div>
+            <div class="typography-specs">
+              <div class="spec-item">
+                <span class="spec-label">字号:</span>
+                <span class="spec-value">${token.fontSize}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">字重:</span>
+                <span class="spec-value">${token.fontWeight}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">行高:</span>
+                <span class="spec-value">${token.lineHeight}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      row.innerHTML = `
+        <td>
+          <span class="token-name">${token.tokenName || 'N/A'}</span>
+        </td>
+        <td>
+          <div>
+            <div style="font-weight: 500; margin-bottom: 4px;">${token.name}</div>
+            <div style="font-size: 12px; color: #999;">${token.nameEn}</div>
+          </div>
+        </td>
+        <td>
+          ${previewHTML}
+        </td>
+        <td>
+          <div class="usage-scenarios">${token.usage}</div>
+        </td>
+        <td>
+          <div class="component-tags">
+            ${token.components.map(comp => `<span class="component-tag">${comp}</span>`).join('')}
+          </div>
+        </td>
+      `;
+
+      return row;
+    }
+
+    // 导出 JSON
+    function exportToJSON() {
+      const exportData = {
+        name: 'WeUI Typography Tokens',
+        version: '1.0.0',
+        description: '基于微信设计规范的完整字体系统',
+        tokens: typographyTokens.map(token => ({
+          tokenName: token.tokenName || '',
+          category: token.category,
+          categoryEn: token.categoryEn,
+          name: token.name,
+          nameEn: token.nameEn,
+          fontSize: token.fontSize || null,
+          fontWeight: token.fontWeight || null,
+          lineHeight: token.lineHeight || null,
+          color: token.color || null,
+          colorDark: token.colorDark || null,
+          usage: token.usage,
+          components: token.components,
+          colorToken: token.colorToken || null
+        }))
+      };
+
+      const jsonStr = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'weui-typography-tokens.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
+

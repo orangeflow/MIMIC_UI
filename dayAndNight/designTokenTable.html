@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeUI 设计体系 Token 表</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #07C160 0%, #1AAD19 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .header-nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .header-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .header-nav-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-nav-link:active {
+      transform: translateY(0);
+    }
+
+    .toolbar {
+      padding: 20px 40px;
+      background: #fafafa;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tab-btn {
+      padding: 8px 20px;
+      border: 2px solid #07C160;
+      border-radius: 6px;
+      background: white;
+      color: #07C160;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: #f0fdf4;
+    }
+
+    .tab-btn.active {
+      background: #07C160;
+      color: white;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid #e5e5e5;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #07C160;
+      color: #07C160;
+    }
+
+    .filter-btn.active {
+      background: #07C160;
+      color: white;
+      border-color: #07C160;
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .export-btn {
+      padding: 8px 20px;
+      background: #07C160;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .export-btn:hover {
+      background: #06AD56;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(7, 193, 96, 0.3);
+    }
+
+    .search-box {
+      padding: 8px 16px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 250px;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #07C160;
+      box-shadow: 0 0 0 3px rgba(7, 193, 96, 0.1);
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .token-section {
+      margin-bottom: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #07C160;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-right: 16px;
+    }
+
+    .section-count {
+      font-size: 14px;
+      color: #666;
+      background: #f0f0f0;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .token-table thead {
+      background: #fafafa;
+    }
+
+    .token-table th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+      border-bottom: 2px solid #e5e5e5;
+    }
+
+    .token-name {
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: #07C160;
+      background: #f0fdf4;
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      border: 1px solid #c8e6c9;
+    }
+
+    .token-table td {
+      padding: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+
+    .token-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .token-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .color-preview-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .color-preview-dual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .color-preview-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 36px;
+    }
+
+    .color-preview-item-label {
+      font-size: 11px;
+      color: #666;
+      width: 50px;
+      flex-shrink: 0;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .color-values-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      justify-content: flex-start;
+    }
+
+    .color-value-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 36px;
+      line-height: 1.5;
+    }
+
+    .color-swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      border: 2px solid #e5e5e5;
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-swatch-small {
+      width: 36px;
+      height: 36px;
+    }
+
+    /* 透明色棋盘背景 */
+    .color-swatch::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+      border-radius: 4px;
+      z-index: -1;
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .color-name {
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .color-value {
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 13px;
+      color: #666;
+      background: #f5f5f5;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      flex-shrink: 0;
+    }
+
+    .color-token {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      background: #f0f0f0;
+      color: #07C160;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .color-token:hover {
+      background: #07C160;
+      color: white;
+      border-color: #07C160;
+    }
+
+    .mode-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .mode-light {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .mode-dark {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    .usage-scenarios {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .component-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .component-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .overlay-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #fff3cd;
+      color: #856404;
+      border-radius: 4px;
+      font-size: 11px;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+
+    .footer {
+      padding: 24px 40px;
+      background: #fafafa;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar-left,
+      .toolbar-right {
+        width: 100%;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .token-table {
+        font-size: 12px;
+      }
+
+      .token-table th,
+      .token-table td {
+        padding: 12px 8px;
+      }
+
+      .color-swatch {
+        width: 36px;
+        height: 36px;
+      }
+
+      .header-nav {
+        position: static;
+        justify-content: center;
+        margin-bottom: 16px;
+        top: auto;
+        right: auto;
+      }
+
+      .header-nav-link {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+    }
+
+    /* 交互式演示主题样式 */
+    #demo-container[data-theme="dark"] .demo-card {
+      background: #1C1C1E !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-card-title {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-card-desc {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-button {
+      background: #1AAD19 !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-list-item {
+      background: #1C1C1E !important;
+      border-color: #38383A !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-list-text {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-list-desc {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-info {
+      background: #2C2C2E !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    #demo-container[data-theme="dark"] .demo-base-color {
+      color: #1AAD19 !important;
+    }
+
+    .demo-theme-btn.active {
+      background: #07C160 !important;
+      color: white !important;
+    }
+
+    #demo-dialog-mask[data-theme="dark"] {
+      background: rgba(0, 0, 0, 0.6) !important;
+    }
+
+    #demo-dialog-mask[data-theme="dark"] .demo-dialog-content {
+      background: #1C1C1E !important;
+    }
+
+    #demo-dialog-mask[data-theme="dark"] .demo-dialog-title {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    #demo-dialog-mask[data-theme="dark"] .demo-dialog-text {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    #interactive-demo[data-theme="dark"] .demo-section-title {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    #interactive-demo[data-theme="dark"] .demo-section-desc {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    #interactive-demo[data-theme="dark"] {
+      background: #1C1C1E !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-nav">
+        <a href="colorToken.html" class="header-nav-link">
+          <span>🎨</span>
+          <span>色彩体系</span>
+        </a>
+        <a href="typographyTokenTable.html" class="header-nav-link">
+          <span>📝</span>
+          <span>文字样式</span>
+        </a>
+      </div>
+      <h1>WeUI 设计体系 Token 表</h1>
+      <p>基于微信设计规范的完整颜色系统 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank" style="color: rgba(255,255,255,0.9); text-decoration: underline;">参考官方文档</a></p>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div style="display: flex; gap: 8px; margin-right: 24px; border-right: 1px solid #e5e5e5; padding-right: 24px;">
+          <button class="tab-btn active" data-tab="base">原始颜色</button>
+          <button class="tab-btn" data-tab="text-color">文本色</button>
+          <button class="tab-btn" data-tab="component">组件 Token</button>
+        </div>
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="light">白天模式</button>
+        <button class="filter-btn" data-filter="dark">暗黑模式</button>
+      </div>
+      <div class="toolbar-right">
+        <input type="text" class="search-box" placeholder="搜索 Token 名称、颜色名称、值或组件..." id="searchInput">
+        <button class="export-btn" onclick="exportToJSON()">导出 JSON</button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <!-- Token 表格将通过 JavaScript 动态生成 -->
+    </div>
+
+    <div class="footer">
+      <p>WeUI 设计体系 | 基于微信设计规范 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank" style="color: #07C160; text-decoration: underline;">参考官方文档</a> | 最后更新: 2025</p>
+    </div>
+  </div>
+
+  <script>
+    // 设计体系 Token 数据
+    const designTokens = [
+      // 背景色
+      {
+        tokenName: 'BG-01',
+        category: '背景色',
+        categoryEn: 'Background Colors',
+        name: '主背景',
+        nameEn: 'Primary Background',
+        value: '#FFFFFF',
+        valueDark: '#000000',
+        mode: 'light',
+        usage: '页面主背景、对话框背景、卡片背景',
+        components: ['页面', '对话框', '卡片']
+      },
+      {
+        tokenName: 'BG-02',
+        category: '背景色',
+        categoryEn: 'Background Colors',
+        name: '次要背景',
+        nameEn: 'Secondary Background',
+        value: '#F7F7F7',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '按钮背景、输入框背景、分组背景',
+        components: ['按钮', '输入框', '分组']
+      },
+      {
+        tokenName: 'BG-03',
+        category: '背景色',
+        categoryEn: 'Background Colors',
+        name: '三级背景',
+        nameEn: 'Tertiary Background',
+        value: '#EDEDED',
+        valueDark: '#2C2C2E',
+        mode: 'light',
+        usage: '分隔区域背景、悬浮状态背景',
+        components: ['分隔区域', '悬浮状态']
+      },
+      // 文本色
+      {
+        tokenName: 'TXT-01',
+        category: '文本色',
+        categoryEn: 'Text Colors',
+        name: '主要文本',
+        nameEn: 'Primary Text',
+        value: 'rgba(0, 0, 0, 0.9)',
+        valueDark: 'rgba(255, 255, 255, 0.9)',
+        mode: 'light',
+        usage: '页面标题、重要内容、导航栏标题',
+        components: ['标题', '导航栏']
+      },
+      {
+        tokenName: 'TXT-02',
+        category: '文本色',
+        categoryEn: 'Text Colors',
+        name: '次要文本',
+        nameEn: 'Secondary Text',
+        value: 'rgba(0, 0, 0, 0.6)',
+        valueDark: 'rgba(255, 255, 255, 0.6)',
+        mode: 'light',
+        usage: '描述文字、列表项副标题、标签页未选中',
+        components: ['描述', '列表', '标签页']
+      },
+      {
+        tokenName: 'TXT-03',
+        category: '文本色',
+        categoryEn: 'Text Colors',
+        name: '辅助文本',
+        nameEn: 'Tertiary Text',
+        value: 'rgba(0, 0, 0, 0.4)',
+        valueDark: 'rgba(255, 255, 255, 0.4)',
+        mode: 'light',
+        usage: '提示文字、占位符、辅助说明',
+        components: ['提示', '占位符']
+      },
+      {
+        tokenName: 'TXT-04',
+        category: '文本色',
+        categoryEn: 'Text Colors',
+        name: '禁用文本',
+        nameEn: 'Disabled Text',
+        value: 'rgba(0, 0, 0, 0.2)',
+        valueDark: 'rgba(255, 255, 255, 0.2)',
+        mode: 'light',
+        usage: '禁用按钮文字、不可用状态文字',
+        components: ['按钮', '禁用状态'],
+        isOverlay: true
+      },
+      // 边框色
+      {
+        tokenName: 'BD-01',
+        category: '边框色',
+        categoryEn: 'Border Colors',
+        name: '标准边框',
+        nameEn: 'Standard Border',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '输入框边框、卡片边框、导航栏边框',
+        components: ['输入框', '卡片', '导航栏']
+      },
+      {
+        tokenName: 'BD-02',
+        category: '边框色',
+        categoryEn: 'Border Colors',
+        name: '浅色边框',
+        nameEn: 'Light Border',
+        value: '#F0F0F0',
+        valueDark: '#48484A',
+        mode: 'light',
+        usage: '列表分隔线、单元格分隔线',
+        components: ['列表', '单元格']
+      },
+      // 品牌色
+      {
+        tokenName: 'BRAND-01',
+        category: '品牌色',
+        categoryEn: 'Brand Colors',
+        name: '微信绿',
+        nameEn: 'WeChat Green',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '主要按钮背景、链接颜色、选中状态',
+        components: ['按钮', '链接', '选中状态']
+      },
+      // 遮罩和覆盖层
+      {
+        tokenName: 'MASK-01',
+        category: '遮罩和覆盖层',
+        categoryEn: 'Mask & Overlay',
+        name: '遮罩层 - 模态框/操作表',
+        nameEn: 'Mask - Modal/ActionSheet',
+        value: 'rgba(0, 0, 0, 0.4)',
+        valueDark: 'rgba(0, 0, 0, 0.6)',
+        mode: 'light',
+        usage: '用于对话框、操作表的背景遮罩',
+        components: ['对话框', '操作表'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-02',
+        category: '遮罩和覆盖层',
+        categoryEn: 'Mask & Overlay',
+        name: '加载遮罩',
+        nameEn: 'Loading Mask',
+        value: 'rgba(0, 0, 0, 0.8)',
+        valueDark: 'rgba(0, 0, 0, 0.8)',
+        mode: 'light',
+        usage: '用于加载状态的全屏遮罩',
+        components: ['加载'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-03',
+        category: '遮罩和覆盖层',
+        categoryEn: 'Mask & Overlay',
+        name: '浅色遮罩 - 按钮激活',
+        nameEn: 'Light Mask - Button Active',
+        value: 'rgba(0, 0, 0, 0.05)',
+        valueDark: 'rgba(255, 255, 255, 0.05)',
+        mode: 'light',
+        usage: '用于按钮、列表项的激活状态',
+        components: ['按钮', '列表项'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-04',
+        category: '遮罩和覆盖层',
+        categoryEn: 'Mask & Overlay',
+        name: '按钮激活遮罩',
+        nameEn: 'Button Active Mask',
+        value: 'rgba(0, 0, 0, 0.1)',
+        valueDark: 'rgba(255, 255, 255, 0.05)',
+        mode: 'light',
+        usage: '按钮按下时的遮罩效果',
+        components: ['按钮'],
+        isOverlay: true
+      },
+      // 按钮组件
+      {
+        tokenName: 'BTN-BG',
+        category: '按钮组件',
+        categoryEn: 'Button Colors',
+        name: '主要按钮背景',
+        nameEn: 'Primary Button Background',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '主要操作按钮背景色，配合白色文字',
+        components: ['按钮']
+      },
+      {
+        tokenName: 'BTN-MASK-ACTIVE',
+        category: '按钮组件',
+        categoryEn: 'Button Colors',
+        name: '按钮激活遮罩',
+        nameEn: 'Button Active Mask',
+        value: 'rgba(0, 0, 0, 0.1)',
+        valueDark: 'rgba(255, 255, 255, 0.05)',
+        mode: 'light',
+        usage: '按钮按下时使用 ::before 伪元素叠加',
+        components: ['按钮'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'BTN-MASK-DISABLED',
+        category: '按钮组件',
+        categoryEn: 'Button Colors',
+        name: '按钮禁用遮罩',
+        nameEn: 'Button Disabled Mask',
+        value: 'rgba(0, 0, 0, 0.05)',
+        valueDark: 'rgba(255, 255, 255, 0.02)',
+        mode: 'light',
+        usage: '禁用按钮的遮罩层，配合 opacity: 0.5',
+        components: ['按钮'],
+        isOverlay: true
+      },
+      // 输入框组件
+      {
+        tokenName: 'INPUT-BG',
+        category: '输入框组件',
+        categoryEn: 'Input Colors',
+        name: '输入框背景',
+        nameEn: 'Input Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '输入框、搜索框背景色',
+        components: ['输入框', '搜索框']
+      },
+      {
+        tokenName: 'INPUT-BD',
+        category: '输入框组件',
+        categoryEn: 'Input Colors',
+        name: '输入框边框',
+        nameEn: 'Input Border',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '输入框默认边框颜色',
+        components: ['输入框']
+      },
+      {
+        tokenName: 'INPUT-BD-FOCUS',
+        category: '输入框组件',
+        categoryEn: 'Input Colors',
+        name: '输入框聚焦边框',
+        nameEn: 'Input Focus Border',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '输入框获得焦点时的边框颜色',
+        components: ['输入框']
+      },
+      // 列表组件
+      {
+        tokenName: 'LIST-BG',
+        category: '列表组件',
+        categoryEn: 'List Colors',
+        name: '列表项背景',
+        nameEn: 'List Item Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '列表项、单元格背景色',
+        components: ['列表', '单元格']
+      },
+      {
+        tokenName: 'LIST-DIVIDER',
+        category: '列表组件',
+        categoryEn: 'List Colors',
+        name: '列表分隔线',
+        nameEn: 'List Divider',
+        value: '#F0F0F0',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '列表项之间的分隔线',
+        components: ['列表']
+      },
+      {
+        tokenName: 'LIST-ACTIVE',
+        category: '列表组件',
+        categoryEn: 'List Colors',
+        name: '列表项激活',
+        nameEn: 'List Item Active',
+        value: 'rgba(0, 0, 0, 0.05)',
+        valueDark: 'rgba(255, 255, 255, 0.05)',
+        mode: 'light',
+        usage: '列表项点击时的触摸反馈',
+        components: ['列表'],
+        isOverlay: true
+      },
+      // 对话框组件
+      {
+        tokenName: 'DIALOG-BG',
+        category: '对话框组件',
+        categoryEn: 'Dialog Colors',
+        name: '对话框背景',
+        nameEn: 'Dialog Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '对话框内容区域背景色',
+        components: ['对话框']
+      },
+      {
+        tokenName: 'DIALOG-MASK',
+        category: '对话框组件',
+        categoryEn: 'Dialog Colors',
+        name: '对话框遮罩',
+        nameEn: 'Dialog Mask',
+        value: 'rgba(0, 0, 0, 0.4)',
+        valueDark: 'rgba(0, 0, 0, 0.6)',
+        mode: 'light',
+        usage: '对话框弹出时的背景遮罩层',
+        components: ['对话框'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'DIALOG-DIVIDER',
+        category: '对话框组件',
+        categoryEn: 'Dialog Colors',
+        name: '对话框分隔线',
+        nameEn: 'Dialog Divider',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '对话框按钮区域分隔线',
+        components: ['对话框']
+      },
+      // Toast 提示组件
+      {
+        tokenName: 'TOAST-BG',
+        category: 'Toast 提示组件',
+        categoryEn: 'Toast Colors',
+        name: 'Toast 背景',
+        nameEn: 'Toast Background',
+        value: 'rgba(0, 0, 0, 0.8)',
+        valueDark: 'rgba(255, 255, 255, 0.9)',
+        mode: 'light',
+        usage: 'Toast 提示框背景，半透明',
+        components: ['Toast'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'TOAST-TXT',
+        category: 'Toast 提示组件',
+        categoryEn: 'Toast Colors',
+        name: 'Toast 文本',
+        nameEn: 'Toast Text',
+        value: '#FFFFFF',
+        valueDark: 'rgba(0, 0, 0, 0.9)',
+        mode: 'light',
+        usage: 'Toast 提示文字颜色',
+        components: ['Toast']
+      },
+      // 进度条组件
+      {
+        tokenName: 'PROGRESS-BG',
+        category: '进度条组件',
+        categoryEn: 'Progress Colors',
+        name: '进度条背景',
+        nameEn: 'Progress Background',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '进度条轨道背景色，未填充部分',
+        components: ['进度条']
+      },
+      {
+        tokenName: 'PROGRESS-FILL',
+        category: '进度条组件',
+        categoryEn: 'Progress Colors',
+        name: '进度条填充',
+        nameEn: 'Progress Fill',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '进度条已完成的填充部分',
+        components: ['进度条']
+      },
+      // 操作表组件
+      {
+        tokenName: 'ACTIONSHEET-BG',
+        category: '操作表组件',
+        categoryEn: 'ActionSheet Colors',
+        name: '操作表背景',
+        nameEn: 'ActionSheet Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '操作表内容区域背景色',
+        components: ['操作表']
+      },
+      {
+        tokenName: 'ACTIONSHEET-MASK',
+        category: '操作表组件',
+        categoryEn: 'ActionSheet Colors',
+        name: '操作表遮罩',
+        nameEn: 'ActionSheet Mask',
+        value: 'rgba(0, 0, 0, 0.4)',
+        valueDark: 'rgba(0, 0, 0, 0.6)',
+        mode: 'light',
+        usage: '操作表弹出时的背景遮罩',
+        components: ['操作表'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'ACTIONSHEET-DIVIDER',
+        category: '操作表组件',
+        categoryEn: 'ActionSheet Colors',
+        name: '操作项分隔',
+        nameEn: 'Action Item Divider',
+        value: '#F7F7F7',
+        valueDark: '#2C2C2E',
+        mode: 'light',
+        usage: '操作项之间的分隔区域',
+        components: ['操作表']
+      },
+      // 单元格组件
+      {
+        tokenName: 'CELL-BG',
+        category: '单元格组件',
+        categoryEn: 'Cell Colors',
+        name: '单元格背景',
+        nameEn: 'Cell Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '单元格默认背景色',
+        components: ['单元格']
+      },
+      {
+        tokenName: 'CELL-ACTIVE',
+        category: '单元格组件',
+        categoryEn: 'Cell Colors',
+        name: '单元格激活',
+        nameEn: 'Cell Active',
+        value: 'rgba(0, 0, 0, 0.05)',
+        valueDark: 'rgba(255, 255, 255, 0.05)',
+        mode: 'light',
+        usage: '单元格点击时的触摸反馈',
+        components: ['单元格'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'CELL-BD',
+        category: '单元格组件',
+        categoryEn: 'Cell Colors',
+        name: '单元格边框',
+        nameEn: 'Cell Border',
+        value: '#F0F0F0',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '单元格底部边框或分隔线',
+        components: ['单元格']
+      },
+      // 标签组件
+      {
+        tokenName: 'BADGE-BG',
+        category: '标签组件',
+        categoryEn: 'Badge/Tag Colors',
+        name: '标签背景',
+        nameEn: 'Badge Background',
+        value: '#F53F3F',
+        valueDark: '#FF453A',
+        mode: 'light',
+        usage: '红色徽章背景，用于消息数量提示',
+        components: ['标签', '徽章']
+      },
+      {
+        tokenName: 'BADGE-TXT',
+        category: '标签组件',
+        categoryEn: 'Badge/Tag Colors',
+        name: '标签文本',
+        nameEn: 'Badge Text',
+        value: '#FFFFFF',
+        valueDark: '#FFFFFF',
+        mode: 'light',
+        usage: '标签内文字颜色，白色',
+        components: ['标签']
+      },
+      // 导航栏组件
+      {
+        tokenName: 'NAVBAR-BG',
+        category: '导航栏组件',
+        categoryEn: 'NavBar Colors',
+        name: '导航栏背景',
+        nameEn: 'NavBar Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '导航栏背景色，通常为白色',
+        components: ['导航栏']
+      },
+      {
+        tokenName: 'NAVBAR-TXT',
+        category: '导航栏组件',
+        categoryEn: 'NavBar Colors',
+        name: '导航栏标题',
+        nameEn: 'NavBar Title',
+        value: 'rgba(0, 0, 0, 0.9)',
+        valueDark: 'rgba(255, 255, 255, 0.9)',
+        mode: 'light',
+        usage: '导航栏标题文字颜色',
+        components: ['导航栏']
+      },
+      {
+        tokenName: 'NAVBAR-BD',
+        category: '导航栏组件',
+        categoryEn: 'NavBar Colors',
+        name: '导航栏边框',
+        nameEn: 'NavBar Border',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '导航栏底部边框，分隔内容',
+        components: ['导航栏']
+      },
+      // 加载组件
+      {
+        tokenName: 'LOADING-INDICATOR',
+        category: '加载组件',
+        categoryEn: 'Loading Colors',
+        name: '加载指示器',
+        nameEn: 'Loading Indicator',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '加载动画、旋转指示器的颜色',
+        components: ['加载']
+      },
+      {
+        tokenName: 'LOADING-MASK',
+        category: '加载组件',
+        categoryEn: 'Loading Colors',
+        name: '加载遮罩',
+        nameEn: 'Loading Mask',
+        value: 'rgba(0, 0, 0, 0.8)',
+        valueDark: 'rgba(0, 0, 0, 0.8)',
+        mode: 'light',
+        usage: '全屏加载时的背景遮罩，80% 不透明度',
+        components: ['加载'],
+        isOverlay: true
+      },
+      // 复选框/单选框组件
+      {
+        tokenName: 'CHECKBOX-BD',
+        category: '复选框/单选框',
+        categoryEn: 'Checkbox/Radio Colors',
+        name: '未选中边框',
+        nameEn: 'Unchecked Border',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '复选框/单选框未选中时的边框颜色',
+        components: ['复选框', '单选框']
+      },
+      {
+        tokenName: 'CHECKBOX-BG',
+        category: '复选框/单选框',
+        categoryEn: 'Checkbox/Radio Colors',
+        name: '选中背景',
+        nameEn: 'Checked Background',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '选中时的背景填充色',
+        components: ['复选框', '单选框']
+      },
+      {
+        tokenName: 'CHECKBOX-MARK',
+        category: '复选框/单选框',
+        categoryEn: 'Checkbox/Radio Colors',
+        name: '选中标记',
+        nameEn: 'Checked Mark',
+        value: '#FFFFFF',
+        valueDark: '#FFFFFF',
+        mode: 'light',
+        usage: '选中时的对勾或圆点颜色',
+        components: ['复选框', '单选框']
+      },
+      // 开关组件
+      {
+        tokenName: 'SWITCH-OFF',
+        category: '开关组件',
+        categoryEn: 'Switch Colors',
+        name: '开关关闭',
+        nameEn: 'Switch Off',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '开关关闭状态时的轨道背景色',
+        components: ['开关']
+      },
+      {
+        tokenName: 'SWITCH-ON',
+        category: '开关组件',
+        categoryEn: 'Switch Colors',
+        name: '开关开启',
+        nameEn: 'Switch On',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '开关开启状态时的轨道背景色',
+        components: ['开关']
+      },
+      {
+        tokenName: 'SWITCH-THUMB',
+        category: '开关组件',
+        categoryEn: 'Switch Colors',
+        name: '开关滑块',
+        nameEn: 'Switch Thumb',
+        value: '#FFFFFF',
+        valueDark: '#FFFFFF',
+        mode: 'light',
+        usage: '开关的圆形滑块颜色，白色',
+        components: ['开关']
+      },
+      // 文章组件
+      {
+        tokenName: 'ARTICLE-BG',
+        category: '文章组件',
+        categoryEn: 'Article Colors',
+        name: '文章背景',
+        nameEn: 'Article Background',
+        value: '#FFFFFF',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '文章内容区域背景色',
+        components: ['文章']
+      },
+      {
+        tokenName: 'ARTICLE-TITLE',
+        category: '文章组件',
+        categoryEn: 'Article Colors',
+        name: '文章标题',
+        nameEn: 'Article Title',
+        value: 'rgba(0, 0, 0, 0.9)',
+        valueDark: 'rgba(255, 255, 255, 0.9)',
+        mode: 'light',
+        usage: '文章标题文字颜色，90% 不透明度',
+        components: ['文章']
+      },
+      {
+        tokenName: 'ARTICLE-BODY',
+        category: '文章组件',
+        categoryEn: 'Article Colors',
+        name: '文章正文',
+        nameEn: 'Article Body',
+        value: 'rgba(0, 0, 0, 0.6)',
+        valueDark: 'rgba(255, 255, 255, 0.6)',
+        mode: 'light',
+        usage: '文章正文段落文字颜色，60% 不透明度',
+        components: ['文章']
+      },
+      // 搜索框组件
+      {
+        tokenName: 'SEARCH-BG',
+        category: '搜索框组件',
+        categoryEn: 'Search Colors',
+        name: '搜索框背景',
+        nameEn: 'Search Background',
+        value: '#F7F7F7',
+        valueDark: '#2C2C2E',
+        mode: 'light',
+        usage: '搜索输入框背景色，浅灰色',
+        components: ['搜索框']
+      },
+      {
+        tokenName: 'SEARCH-TXT',
+        category: '搜索框组件',
+        categoryEn: 'Search Colors',
+        name: '搜索框文本',
+        nameEn: 'Search Text',
+        value: 'rgba(0, 0, 0, 0.6)',
+        valueDark: 'rgba(255, 255, 255, 0.6)',
+        mode: 'light',
+        usage: '搜索框输入文字颜色',
+        components: ['搜索框']
+      },
+      {
+        tokenName: 'SEARCH-PLACEHOLDER',
+        category: '搜索框组件',
+        categoryEn: 'Search Colors',
+        name: '搜索框占位符',
+        nameEn: 'Search Placeholder',
+        value: 'rgba(0, 0, 0, 0.4)',
+        valueDark: 'rgba(255, 255, 255, 0.4)',
+        mode: 'light',
+        usage: '搜索框占位符文字，40% 不透明度',
+        components: ['搜索框']
+      },
+      // 滑块组件
+      {
+        tokenName: 'SLIDER-TRACK',
+        category: '滑块组件',
+        categoryEn: 'Slider Colors',
+        name: '滑块轨道',
+        nameEn: 'Slider Track',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '滑块轨道背景色，未填充部分',
+        components: ['滑块']
+      },
+      {
+        tokenName: 'SLIDER-FILL',
+        category: '滑块组件',
+        categoryEn: 'Slider Colors',
+        name: '滑块填充',
+        nameEn: 'Slider Fill',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '滑块已选择部分的填充色',
+        components: ['滑块']
+      },
+      {
+        tokenName: 'SLIDER-THUMB',
+        category: '滑块组件',
+        categoryEn: 'Slider Colors',
+        name: '滑块手柄',
+        nameEn: 'Slider Thumb',
+        value: '#FFFFFF',
+        valueDark: '#FFFFFF',
+        mode: 'light',
+        usage: '滑块的可拖动手柄颜色，白色',
+        components: ['滑块']
+      },
+      // 图标组件
+      {
+        tokenName: 'ICON-PRIMARY',
+        category: '图标组件',
+        categoryEn: 'Icon Colors',
+        name: '主要图标',
+        nameEn: 'Primary Icon',
+        value: 'rgba(0, 0, 0, 0.9)',
+        valueDark: 'rgba(255, 255, 255, 0.9)',
+        mode: 'light',
+        usage: '重要功能图标、主要操作图标颜色',
+        components: ['图标']
+      },
+      {
+        tokenName: 'ICON-SECONDARY',
+        category: '图标组件',
+        categoryEn: 'Icon Colors',
+        name: '次要图标',
+        nameEn: 'Secondary Icon',
+        value: 'rgba(0, 0, 0, 0.6)',
+        valueDark: 'rgba(255, 255, 255, 0.6)',
+        mode: 'light',
+        usage: '辅助图标、次要功能图标颜色',
+        components: ['图标']
+      },
+      {
+        tokenName: 'ICON-ACCENT',
+        category: '图标组件',
+        categoryEn: 'Icon Colors',
+        name: '强调图标',
+        nameEn: 'Accent Icon',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '需要强调的图标，如成功、选中状态',
+        components: ['图标']
+      },
+      // 分割线组件
+      {
+        tokenName: 'DIVIDER',
+        category: '分割线组件',
+        categoryEn: 'Divider Colors',
+        name: '分割线',
+        nameEn: 'Divider',
+        value: '#F0F0F0',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '标准分割线，用于分隔内容区域',
+        components: ['分割线']
+      },
+      {
+        tokenName: 'DIVIDER-THICK',
+        category: '分割线组件',
+        categoryEn: 'Divider Colors',
+        name: '粗分割线',
+        nameEn: 'Thick Divider',
+        value: '#E5E5E5',
+        valueDark: '#48484A',
+        mode: 'light',
+        usage: '较粗的分割线，用于重要区域分隔',
+        components: ['分割线']
+      },
+      // 功能色
+      {
+        tokenName: 'FUNC-SUCCESS',
+        category: '功能色',
+        categoryEn: 'Functional Colors',
+        name: '成功色',
+        nameEn: 'Success',
+        value: '#00B42A',
+        valueDark: '#30D158',
+        mode: 'light',
+        usage: '成功提示、操作成功反馈',
+        components: ['提示', '反馈']
+      },
+      {
+        tokenName: 'FUNC-WARNING',
+        category: '功能色',
+        categoryEn: 'Functional Colors',
+        name: '警告色',
+        nameEn: 'Warning',
+        value: '#FF7D00',
+        valueDark: '#FF9F0A',
+        mode: 'light',
+        usage: '警告提示、需要注意的信息',
+        components: ['提示', '警告']
+      },
+      {
+        tokenName: 'FUNC-ERROR',
+        category: '功能色',
+        categoryEn: 'Functional Colors',
+        name: '错误色',
+        nameEn: 'Error',
+        value: '#F53F3F',
+        valueDark: '#FF453A',
+        mode: 'light',
+        usage: '错误提示、操作失败反馈',
+        components: ['提示', '错误']
+      },
+      {
+        tokenName: 'FUNC-INFO',
+        category: '功能色',
+        categoryEn: 'Functional Colors',
+        name: '信息色',
+        nameEn: 'Info',
+        value: '#10AEFF',
+        valueDark: '#0A84FF',
+        mode: 'light',
+        usage: '信息提示、一般性通知',
+        components: ['提示', '信息']
+      },
+      // 原始颜色 - 白色系
+      {
+        tokenName: 'WHITE-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '纯白色',
+        nameEn: 'Pure White',
+        value: '#FFFFFF',
+        valueDark: '#FFFFFF',
+        mode: 'light',
+        usage: '最基础的白色，用于主背景、卡片背景',
+        components: ['背景', '卡片', '文本']
+      },
+      // 原始颜色 - 黑色系
+      {
+        tokenName: 'BLACK-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '纯黑色',
+        nameEn: 'Pure Black',
+        value: '#000000',
+        valueDark: '#000000',
+        mode: 'light',
+        usage: '最基础的黑色，用于暗黑模式主背景',
+        components: ['背景']
+      },
+      // 原始颜色 - 灰色系
+      {
+        tokenName: 'GRAY-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '浅灰',
+        nameEn: 'Light Gray',
+        value: '#F7F7F7',
+        valueDark: '#1C1C1E',
+        mode: 'light',
+        usage: '浅灰色，用于次要背景',
+        components: ['背景']
+      },
+      {
+        tokenName: 'GRAY-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '中浅灰',
+        nameEn: 'Medium Light Gray',
+        value: '#F0F0F0',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '中浅灰色，用于边框、分割线',
+        components: ['边框', '分割线']
+      },
+      {
+        tokenName: 'GRAY-03',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '中灰',
+        nameEn: 'Medium Gray',
+        value: '#EDEDED',
+        valueDark: '#2C2C2E',
+        mode: 'light',
+        usage: '中灰色，用于三级背景',
+        components: ['背景']
+      },
+      {
+        tokenName: 'GRAY-04',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '标准灰',
+        nameEn: 'Standard Gray',
+        value: '#E5E5E5',
+        valueDark: '#38383A',
+        mode: 'light',
+        usage: '标准灰色，用于边框、进度条背景',
+        components: ['边框', '进度条']
+      },
+      {
+        tokenName: 'GRAY-05',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '深灰',
+        nameEn: 'Dark Gray',
+        value: '#48484A',
+        valueDark: '#48484A',
+        mode: 'light',
+        usage: '深灰色，用于暗黑模式边框',
+        components: ['边框']
+      },
+      // 原始颜色 - 绿色系
+      {
+        tokenName: 'GREEN-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '微信绿（浅）',
+        nameEn: 'WeChat Green Light',
+        value: '#07C160',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '微信品牌绿色，用于主要按钮、链接',
+        components: ['按钮', '链接', '品牌']
+      },
+      {
+        tokenName: 'GREEN-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '微信绿（深）',
+        nameEn: 'WeChat Green Dark',
+        value: '#1AAD19',
+        valueDark: '#1AAD19',
+        mode: 'light',
+        usage: '微信品牌深绿色，用于暗黑模式',
+        components: ['按钮', '链接', '品牌']
+      },
+      {
+        tokenName: 'GREEN-03',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '成功绿（浅）',
+        nameEn: 'Success Green Light',
+        value: '#00B42A',
+        valueDark: '#30D158',
+        mode: 'light',
+        usage: '成功提示绿色，用于成功状态',
+        components: ['提示', '成功']
+      },
+      {
+        tokenName: 'GREEN-04',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '成功绿（深）',
+        nameEn: 'Success Green Dark',
+        value: '#30D158',
+        valueDark: '#30D158',
+        mode: 'light',
+        usage: '成功提示深绿色，用于暗黑模式',
+        components: ['提示', '成功']
+      },
+      // 原始颜色 - 红色系
+      {
+        tokenName: 'RED-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '错误红（浅）',
+        nameEn: 'Error Red Light',
+        value: '#F53F3F',
+        valueDark: '#FF453A',
+        mode: 'light',
+        usage: '错误提示红色，用于错误状态',
+        components: ['错误', '提示']
+      },
+      {
+        tokenName: 'RED-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '错误红（深）',
+        nameEn: 'Error Red Dark',
+        value: '#FF453A',
+        valueDark: '#FF453A',
+        mode: 'light',
+        usage: '错误提示深红色，用于暗黑模式',
+        components: ['错误', '提示']
+      },
+      {
+        tokenName: 'RED-03',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '按钮红（浅）',
+        nameEn: 'Button Red Light',
+        value: '#F45D4C',
+        valueDark: '#FF5A4D',
+        mode: 'light',
+        usage: '按钮专用红色，用于特殊按钮',
+        components: ['按钮']
+      },
+      {
+        tokenName: 'RED-04',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '按钮红（深）',
+        nameEn: 'Button Red Dark',
+        value: '#FF5A4D',
+        valueDark: '#FF5A4D',
+        mode: 'light',
+        usage: '按钮专用深红色，用于暗黑模式',
+        components: ['按钮']
+      },
+      // 原始颜色 - 橙色/黄色系
+      {
+        tokenName: 'ORANGE-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '警告橙（浅）',
+        nameEn: 'Warning Orange Light',
+        value: '#FFBE00',
+        valueDark: '#FFCC00',
+        mode: 'light',
+        usage: '警告提示橙色，用于警告状态',
+        components: ['警告', '提示']
+      },
+      {
+        tokenName: 'ORANGE-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '警告橙（深）',
+        nameEn: 'Warning Orange Dark',
+        value: '#FFCC00',
+        valueDark: '#FFCC00',
+        mode: 'light',
+        usage: '警告提示深橙色，用于暗黑模式',
+        components: ['警告', '提示']
+      },
+      {
+        tokenName: 'ORANGE-03',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '警告橙（新浅）',
+        nameEn: 'Warning Orange New Light',
+        value: '#FF7D00',
+        valueDark: '#FF9F0A',
+        mode: 'light',
+        usage: '警告提示橙色，用于警告状态（新标准）',
+        components: ['警告', '提示']
+      },
+      {
+        tokenName: 'ORANGE-04',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '警告橙（新深）',
+        nameEn: 'Warning Orange New Dark',
+        value: '#FF9F0A',
+        valueDark: '#FF9F0A',
+        mode: 'light',
+        usage: '警告提示深橙色，用于暗黑模式（新标准）',
+        components: ['警告', '提示']
+      },
+      // 原始颜色 - 蓝色系
+      {
+        tokenName: 'BLUE-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '信息蓝（浅）',
+        nameEn: 'Info Blue Light',
+        value: '#10AEFF',
+        valueDark: '#0A84FF',
+        mode: 'light',
+        usage: '信息提示蓝色，用于信息状态',
+        components: ['信息', '提示']
+      },
+      {
+        tokenName: 'BLUE-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '信息蓝（深）',
+        nameEn: 'Info Blue Dark',
+        value: '#0A84FF',
+        valueDark: '#0A84FF',
+        mode: 'light',
+        usage: '信息提示深蓝色，用于暗黑模式',
+        components: ['信息', '提示']
+      },
+      // 原始颜色 - 透明色（黑色遮罩）
+      {
+        tokenName: 'MASK-BLACK-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 5%',
+        nameEn: 'Black Mask 5%',
+        value: 'rgba(0, 0, 0, 0.05)',
+        valueDark: 'rgba(0, 0, 0, 0.05)',
+        mode: 'light',
+        usage: '5% 透明度的黑色遮罩，用于按钮禁用、列表激活',
+        components: ['遮罩', '按钮', '列表'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-BLACK-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 10%',
+        nameEn: 'Black Mask 10%',
+        value: 'rgba(0, 0, 0, 0.1)',
+        valueDark: 'rgba(0, 0, 0, 0.1)',
+        mode: 'light',
+        usage: '10% 透明度的黑色遮罩，用于按钮激活',
+        components: ['遮罩', '按钮'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-BLACK-03',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 20%',
+        nameEn: 'Black Mask 20%',
+        value: 'rgba(0, 0, 0, 0.2)',
+        valueDark: 'rgba(0, 0, 0, 0.2)',
+        mode: 'light',
+        usage: '20% 透明度的黑色遮罩，用于禁用文本',
+        components: ['遮罩', '文本'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-BLACK-04',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 40%',
+        nameEn: 'Black Mask 40%',
+        value: 'rgba(0, 0, 0, 0.4)',
+        valueDark: 'rgba(0, 0, 0, 0.4)',
+        mode: 'light',
+        usage: '40% 透明度的黑色遮罩，用于对话框遮罩（白天模式）',
+        components: ['遮罩', '对话框'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-BLACK-05',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 60%',
+        nameEn: 'Black Mask 60%',
+        value: 'rgba(0, 0, 0, 0.6)',
+        valueDark: 'rgba(0, 0, 0, 0.6)',
+        mode: 'light',
+        usage: '60% 透明度的黑色遮罩，用于对话框遮罩（暗黑模式）',
+        components: ['遮罩', '对话框'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-BLACK-06',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 80%',
+        nameEn: 'Black Mask 80%',
+        value: 'rgba(0, 0, 0, 0.8)',
+        valueDark: 'rgba(0, 0, 0, 0.8)',
+        mode: 'light',
+        usage: '80% 透明度的黑色遮罩，用于加载遮罩、Toast背景',
+        components: ['遮罩', '加载', 'Toast'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-BLACK-07',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '黑色遮罩 90%',
+        nameEn: 'Black Mask 90%',
+        value: 'rgba(0, 0, 0, 0.9)',
+        valueDark: 'rgba(0, 0, 0, 0.9)',
+        mode: 'light',
+        usage: '90% 透明度的黑色遮罩，用于主要文本',
+        components: ['遮罩', '文本'],
+        isOverlay: true
+      },
+      // 原始颜色 - 透明色（白色遮罩）
+      {
+        tokenName: 'MASK-WHITE-01',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '白色遮罩 2%',
+        nameEn: 'White Mask 2%',
+        value: 'rgba(255, 255, 255, 0.02)',
+        valueDark: 'rgba(255, 255, 255, 0.02)',
+        mode: 'light',
+        usage: '2% 透明度的白色遮罩，用于按钮禁用（暗黑模式）',
+        components: ['遮罩', '按钮'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-WHITE-02',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '白色遮罩 5%',
+        nameEn: 'White Mask 5%',
+        value: 'rgba(255, 255, 255, 0.05)',
+        valueDark: 'rgba(255, 255, 255, 0.05)',
+        mode: 'light',
+        usage: '5% 透明度的白色遮罩，用于按钮激活、列表激活（暗黑模式）',
+        components: ['遮罩', '按钮', '列表'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-WHITE-03',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '白色遮罩 20%',
+        nameEn: 'White Mask 20%',
+        value: 'rgba(255, 255, 255, 0.2)',
+        valueDark: 'rgba(255, 255, 255, 0.2)',
+        mode: 'light',
+        usage: '20% 透明度的白色遮罩，用于禁用文本（暗黑模式）',
+        components: ['遮罩', '文本'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-WHITE-04',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '白色遮罩 40%',
+        nameEn: 'White Mask 40%',
+        value: 'rgba(255, 255, 255, 0.4)',
+        valueDark: 'rgba(255, 255, 255, 0.4)',
+        mode: 'light',
+        usage: '40% 透明度的白色遮罩，用于辅助文本（暗黑模式）',
+        components: ['遮罩', '文本'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-WHITE-05',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '白色遮罩 60%',
+        nameEn: 'White Mask 60%',
+        value: 'rgba(255, 255, 255, 0.6)',
+        valueDark: 'rgba(255, 255, 255, 0.6)',
+        mode: 'light',
+        usage: '60% 透明度的白色遮罩，用于次要文本（暗黑模式）',
+        components: ['遮罩', '文本'],
+        isOverlay: true
+      },
+      {
+        tokenName: 'MASK-WHITE-06',
+        category: '原始颜色',
+        categoryEn: 'Base Colors',
+        name: '白色遮罩 90%',
+        nameEn: 'White Mask 90%',
+        value: 'rgba(255, 255, 255, 0.9)',
+        valueDark: 'rgba(255, 255, 255, 0.9)',
+        mode: 'light',
+        usage: '90% 透明度的白色遮罩，用于主要文本（暗黑模式）、Toast背景（暗黑模式）',
+        components: ['遮罩', '文本', 'Toast'],
+        isOverlay: true
+      }
+    ];
+
+    // 当前过滤模式
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let currentTab = 'base'; // 'base'、'text-color' 或 'component'
+
+    // 原始颜色 Token 映射表
+    const baseColorTokens = {
+      '#FFFFFF': 'WHITE-01',
+      '#000000': 'BLACK-01',
+      '#F7F7F7': 'GRAY-01',
+      '#F0F0F0': 'GRAY-02',
+      '#EDEDED': 'GRAY-03',
+      '#E5E5E5': 'GRAY-04',
+      '#48484A': 'GRAY-05',
+      '#1C1C1E': 'GRAY-01',
+      '#38383A': 'GRAY-02',
+      '#2C2C2E': 'GRAY-03',
+      '#07C160': 'GREEN-01',
+      '#1AAD19': 'GREEN-02',
+      '#00B42A': 'GREEN-03', // 成功色 (Light)
+      '#30D158': 'GREEN-04', // 成功色 (Dark)
+      '#F53F3F': 'RED-01',
+      '#FF453A': 'RED-02',
+      '#F45D4C': 'RED-03',
+      '#FF5A4D': 'RED-04',
+      '#FFBE00': 'ORANGE-01',
+      '#FFCC00': 'ORANGE-02',
+      '#FF7D00': 'ORANGE-03', // 警告色 (Light)
+      '#FF9F0A': 'ORANGE-04', // 警告色 (Dark)
+      '#10AEFF': 'BLUE-01',
+      '#0A84FF': 'BLUE-02',
+      'rgba(0, 0, 0, 0.05)': 'MASK-BLACK-01',
+      'rgba(0, 0, 0, 0.1)': 'MASK-BLACK-02',
+      'rgba(0, 0, 0, 0.2)': 'MASK-BLACK-03',
+      'rgba(0, 0, 0, 0.4)': 'MASK-BLACK-04',
+      'rgba(0, 0, 0, 0.6)': 'MASK-BLACK-05',
+      'rgba(0, 0, 0, 0.8)': 'MASK-BLACK-06',
+      'rgba(0, 0, 0, 0.9)': 'MASK-BLACK-07',
+      'rgba(255, 255, 255, 0.02)': 'MASK-WHITE-01',
+      'rgba(255, 255, 255, 0.05)': 'MASK-WHITE-02',
+      'rgba(255, 255, 255, 0.2)': 'MASK-WHITE-03',
+      'rgba(255, 255, 255, 0.4)': 'MASK-WHITE-04',
+      'rgba(255, 255, 255, 0.6)': 'MASK-WHITE-05',
+      'rgba(255, 255, 255, 0.9)': 'MASK-WHITE-06'
+    };
+
+    // 查找颜色值对应的 Token
+    function findTokenForColor(colorValue) {
+      if (!colorValue) return null;
+      // 标准化颜色值（去除空格，统一大小写）
+      const normalized = colorValue.trim().toUpperCase();
+      // 直接匹配
+      if (baseColorTokens[colorValue]) {
+        return baseColorTokens[colorValue];
+      }
+      // 尝试匹配标准化后的值
+      const normalizedMap = {};
+      Object.keys(baseColorTokens).forEach(key => {
+        normalizedMap[key.trim().toUpperCase()] = baseColorTokens[key];
+      });
+      if (normalizedMap[normalized]) {
+        return normalizedMap[normalized];
+      }
+      return null;
+    }
+
+    // 初始化
+    function init() {
+      try {
+        console.log('Initializing...', designTokens ? designTokens.length : 'no tokens');
+        renderTokens();
+        setupEventListeners();
+        console.log('Initialization complete');
+      } catch (error) {
+        console.error('Initialization error:', error);
+        const content = document.getElementById('content');
+        if (content) {
+          content.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">⚠️</div>
+              <p>初始化错误: ${error.message}</p>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // 设置事件监听
+    function setupEventListeners() {
+      // Tab 切换按钮
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentTab = btn.getAttribute('data-tab');
+          renderTokens();
+        });
+      });
+
+      // 过滤按钮
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-filter');
+          renderTokens();
+        });
+      });
+
+      // 搜索框
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        currentSearch = e.target.value.toLowerCase();
+        renderTokens();
+      });
+    }
+
+    // 渲染 Token 表格
+    function renderTokens() {
+      const content = document.getElementById('content');
+      if (!content) {
+        console.error('Content element not found');
+        return;
+      }
+      
+      if (!designTokens || designTokens.length === 0) {
+        console.error('Design tokens array is empty or undefined');
+        content.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <p>Token 数据未加载</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // 保存交互式演示区域（如果存在）
+      const interactiveDemo = document.getElementById('interactive-demo');
+      const demoParent = interactiveDemo ? interactiveDemo.parentNode : null;
+      
+      content.innerHTML = '';
+
+      // 根据当前Tab过滤token
+      let tokensToRender = designTokens;
+      if (currentTab === 'base') {
+        // 只显示原始颜色
+        tokensToRender = designTokens.filter(token => token.category === '原始颜色');
+      } else if (currentTab === 'text-color') {
+        // 只显示文本色
+        tokensToRender = designTokens.filter(token => token.category === '文本色');
+      } else if (currentTab === 'component') {
+        // 只显示组件token（排除原始颜色和文本色）
+        tokensToRender = designTokens.filter(token => token.category !== '原始颜色' && token.category !== '文本色');
+      }
+
+      // 按分类分组
+      const grouped = groupByCategory(tokensToRender);
+      const categories = Object.keys(grouped).sort();
+      console.log('Current Tab:', currentTab);
+      console.log('Grouped categories:', categories);
+      console.log('原始颜色 tokens:', grouped['原始颜色'] ? grouped['原始颜色'].length : 'not found');
+
+      // 遍历每个分类
+      let sectionsAdded = 0;
+      categories.forEach(category => {
+        const tokens = grouped[category];
+        const filteredTokens = filterTokens(tokens);
+        
+        console.log(`Category: ${category}, Total: ${tokens.length}, Filtered: ${filteredTokens.length}`);
+
+        if (filteredTokens.length === 0) return;
+
+        try {
+          const section = createSection(category, tokens[0].categoryEn, filteredTokens);
+          content.appendChild(section);
+          sectionsAdded++;
+        } catch (error) {
+          console.error(`Error creating section for ${category}:`, error);
+        }
+      });
+      
+      console.log(`Added ${sectionsAdded} sections`);
+
+      if (content.innerHTML === '') {
+        content.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <p>没有找到匹配的 Token</p>
+          </div>
+        `;
+      } else {
+        // 只在组件Token tab显示交互式演示区域
+        if (currentTab === 'component') {
+          // 添加交互式演示区域（如果还没有添加）
+          if (!document.getElementById('interactive-demo')) {
+            addInteractiveDemo(content);
+          } else if (demoParent && demoParent !== content) {
+            // 如果演示区域在其他地方，移动到 content
+            content.appendChild(interactiveDemo);
+          }
+        } else {
+          // 在原始颜色和文本色tab时，移除交互式演示区域
+          if (interactiveDemo && interactiveDemo.parentNode) {
+            interactiveDemo.parentNode.removeChild(interactiveDemo);
+          }
+        }
+      }
+    }
+
+    // 添加交互式演示
+    function addInteractiveDemo(container) {
+      // 检查是否已经添加过演示区域
+      if (document.getElementById('interactive-demo')) return;
+
+      const demoSection = document.createElement('div');
+      demoSection.id = 'interactive-demo';
+      demoSection.style.cssText = 'margin-top: 60px; padding: 40px; background: #fafafa; border-radius: 12px; border-top: 3px solid #07C160;';
+      
+      demoSection.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h2 class="demo-section-title" style="font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #1a1a1a;">交互式演示：遮罩叠加效果</h2>
+            <p class="demo-section-desc" style="font-size: 14px; color: #666;">点击下面的组件，查看遮罩叠加的实际效果</p>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <button id="demo-theme-light" class="demo-theme-btn active" data-theme="light" style="padding: 8px 16px; border: 2px solid #07C160; border-radius: 6px; background: white; color: #07C160; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">
+              ☀️ 白天模式
+            </button>
+            <button id="demo-theme-dark" class="demo-theme-btn" data-theme="dark" style="padding: 8px 16px; border: 2px solid #07C160; border-radius: 6px; background: white; color: #07C160; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">
+              🌙 暗黑模式
+            </button>
+          </div>
+        </div>
+        
+        <div id="demo-container" data-theme="light" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+          <!-- 按钮演示 -->
+          <div class="demo-card" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s;">
+            <h3 class="demo-card-title" style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a;">按钮激活遮罩</h3>
+            <p class="demo-card-desc" style="font-size: 12px; color: #999; margin-bottom: 16px;">点击按钮查看按下效果</p>
+            <button id="demo-button" class="demo-button" style="width: 100%; padding: 12px 24px; background: #07C160; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s;">
+              <span style="position: relative; z-index: 1;">主要按钮</span>
+            </button>
+            <div class="demo-info" style="margin-top: 12px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+              <strong>遮罩值（白天）：</strong>rgba(0, 0, 0, 0.1)<br>
+              <strong>遮罩值（暗黑）：</strong>rgba(255, 255, 255, 0.05)<br>
+              <strong>叠加在：</strong><span class="demo-base-color">#07C160</span> (微信绿)
+            </div>
+          </div>
+
+          <!-- 列表项演示 -->
+          <div class="demo-card" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s;">
+            <h3 class="demo-card-title" style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a;">列表项激活遮罩</h3>
+            <p class="demo-card-desc" style="font-size: 12px; color: #999; margin-bottom: 16px;">点击列表项查看触摸反馈</p>
+            <div id="demo-list-item" class="demo-list-item" style="padding: 16px; background: white; border: 1px solid #e5e5e5; border-radius: 6px; cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s;">
+              <div class="demo-list-text" style="font-weight: 500; color: #1a1a1a; position: relative; z-index: 1;">列表项内容</div>
+              <div class="demo-list-desc" style="font-size: 12px; color: #999; margin-top: 4px; position: relative; z-index: 1;">点击查看遮罩效果</div>
+            </div>
+            <div class="demo-info" style="margin-top: 12px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+              <strong>遮罩值（白天）：</strong>rgba(0, 0, 0, 0.05)<br>
+              <strong>遮罩值（暗黑）：</strong>rgba(255, 255, 255, 0.05)<br>
+              <strong>叠加在：</strong><span class="demo-base-color">#FFFFFF</span> (白色背景)
+            </div>
+          </div>
+
+          <!-- 对话框遮罩演示 -->
+          <div class="demo-card" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s;">
+            <h3 class="demo-card-title" style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a;">对话框遮罩</h3>
+            <p class="demo-card-desc" style="font-size: 12px; color: #999; margin-bottom: 16px;">点击按钮查看对话框遮罩效果</p>
+            <button id="demo-dialog-btn" class="demo-button" style="width: 100%; padding: 12px 24px; background: #07C160; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer;">
+              打开对话框
+            </button>
+            <div class="demo-info" style="margin-top: 12px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+              <strong>遮罩值（白天）：</strong>rgba(0, 0, 0, 0.4)<br>
+              <strong>遮罩值（暗黑）：</strong>rgba(0, 0, 0, 0.6)<br>
+              <strong>叠加在：</strong>页面背景
+            </div>
+          </div>
+
+          <!-- 按钮禁用遮罩演示 -->
+          <div class="demo-card" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s;">
+            <h3 class="demo-card-title" style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a;">按钮禁用遮罩</h3>
+            <p class="demo-card-desc" style="font-size: 12px; color: #999; margin-bottom: 16px;">查看禁用按钮的遮罩叠加效果</p>
+            <div style="position: relative; width: 100%;">
+              <button id="demo-disabled-button" class="demo-button-disabled" disabled style="width: 100%; padding: 12px 24px; background: #07C160; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: not-allowed; position: relative; overflow: hidden; opacity: 0.5;">
+                <span style="position: relative; z-index: 1;">禁用按钮</span>
+              </button>
+            </div>
+            <div class="demo-info" style="margin-top: 12px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+              <strong>遮罩值（白天）：</strong>rgba(0, 0, 0, 0.05)<br>
+              <strong>遮罩值（暗黑）：</strong>rgba(255, 255, 255, 0.02)<br>
+              <strong>叠加在：</strong><span class="demo-base-color">#07C160</span> (微信绿)<br>
+              <strong>配合：</strong>opacity: 0.5
+            </div>
+            <div style="margin-top: 8px; padding: 12px; background: #fff9e6; border-radius: 4px; font-size: 12px; color: #856404; border-left: 3px solid #ffbe00;">
+              <strong>说明：</strong>禁用按钮使用遮罩层叠加 + opacity 降低，产生禁用视觉效果
+            </div>
+          </div>
+        </div>
+
+        <!-- 对话框遮罩演示 -->
+        <div id="demo-dialog-mask" class="demo-dialog-mask" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1000; align-items: center; justify-content: center;">
+          <div class="demo-dialog-content" style="background: white; padding: 24px; border-radius: 12px; max-width: 400px; width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.2); position: relative; z-index: 1001;">
+            <h3 class="demo-dialog-title" style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a;">对话框示例</h3>
+            <p class="demo-dialog-text" style="font-size: 14px; color: #666; margin-bottom: 24px;">这是对话框内容。背景的暗色就是遮罩叠加效果。</p>
+            <button id="demo-dialog-close" class="demo-button" style="width: 100%; padding: 12px 24px; background: #07C160; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer;">
+              关闭
+            </button>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(demoSection);
+
+      // 添加交互事件
+      setupDemoInteractions();
+    }
+
+    // 设置演示交互
+    function setupDemoInteractions() {
+      // 按钮激活遮罩
+      const demoButton = document.getElementById('demo-button');
+      if (demoButton && !demoButton.querySelector('.demo-button-mask')) {
+        // 创建遮罩层
+        const mask = document.createElement('div');
+        mask.className = 'demo-button-mask';
+        mask.style.cssText = 'position: absolute; inset: 0; background: rgba(0, 0, 0, 0.1); opacity: 0; transition: opacity 0.2s; pointer-events: none;';
+        demoButton.appendChild(mask);
+
+        if (!demoButton.hasAttribute('data-listener-attached')) {
+          demoButton.setAttribute('data-listener-attached', 'true');
+          demoButton.addEventListener('mousedown', () => {
+            mask.style.opacity = '1';
+          });
+          demoButton.addEventListener('mouseup', () => {
+            mask.style.opacity = '0';
+          });
+          demoButton.addEventListener('mouseleave', () => {
+            mask.style.opacity = '0';
+          });
+        }
+      }
+
+      // 列表项激活遮罩
+      const demoListItem = document.getElementById('demo-list-item');
+      if (demoListItem && !demoListItem.querySelector('.demo-list-mask')) {
+        const mask = document.createElement('div');
+        mask.className = 'demo-list-mask';
+        mask.style.cssText = 'position: absolute; inset: 0; background: rgba(0, 0, 0, 0.05); opacity: 0; transition: opacity 0.2s; pointer-events: none;';
+        demoListItem.appendChild(mask);
+
+        if (!demoListItem.hasAttribute('data-listener-attached')) {
+          demoListItem.setAttribute('data-listener-attached', 'true');
+          demoListItem.addEventListener('mousedown', () => {
+            mask.style.opacity = '1';
+          });
+          demoListItem.addEventListener('mouseup', () => {
+            mask.style.opacity = '0';
+          });
+          demoListItem.addEventListener('mouseleave', () => {
+            mask.style.opacity = '0';
+          });
+        }
+      }
+
+      // 对话框遮罩
+      const dialogBtn = document.getElementById('demo-dialog-btn');
+      const dialogMask = document.getElementById('demo-dialog-mask');
+      const dialogClose = document.getElementById('demo-dialog-close');
+
+      if (dialogBtn && dialogMask && !dialogBtn.hasAttribute('data-listener-attached')) {
+        dialogBtn.setAttribute('data-listener-attached', 'true');
+        dialogBtn.addEventListener('click', () => {
+          dialogMask.style.display = 'flex';
+        });
+      }
+
+      if (dialogClose && dialogMask && !dialogClose.hasAttribute('data-listener-attached')) {
+        dialogClose.setAttribute('data-listener-attached', 'true');
+        dialogClose.addEventListener('click', () => {
+          dialogMask.style.display = 'none';
+        });
+        dialogMask.addEventListener('click', (e) => {
+          if (e.target === dialogMask) {
+            dialogMask.style.display = 'none';
+          }
+        });
+      }
+
+      // 按钮禁用遮罩
+      const disabledButton = document.getElementById('demo-disabled-button');
+      if (disabledButton) {
+        // 创建遮罩层（禁用状态始终显示）
+        const mask = document.createElement('div');
+        mask.className = 'demo-disabled-mask';
+        mask.style.cssText = 'position: absolute; inset: 0; background: rgba(0, 0, 0, 0.05); pointer-events: none; z-index: 0;';
+        disabledButton.appendChild(mask);
+      }
+
+      // 主题切换
+      const themeLightBtn = document.getElementById('demo-theme-light');
+      const themeDarkBtn = document.getElementById('demo-theme-dark');
+      const demoContainer = document.getElementById('demo-container');
+      // dialogMask 已在上面声明，这里不再重复声明
+
+      function switchDemoTheme(theme) {
+        if (!demoContainer) return;
+        
+        const demoSection = document.getElementById('interactive-demo');
+        if (demoSection) {
+          demoSection.setAttribute('data-theme', theme);
+        }
+        
+        demoContainer.setAttribute('data-theme', theme);
+        if (dialogMask) {
+          dialogMask.setAttribute('data-theme', theme);
+        }
+
+        // 更新遮罩层颜色
+        updateMaskColors(theme);
+
+        // 更新按钮状态
+        if (themeLightBtn && themeDarkBtn) {
+          if (theme === 'light') {
+            themeLightBtn.classList.add('active');
+            themeDarkBtn.classList.remove('active');
+          } else {
+            themeDarkBtn.classList.add('active');
+            themeLightBtn.classList.remove('active');
+          }
+        }
+      }
+
+      function updateMaskColors(theme) {
+        // 按钮激活遮罩
+        const demoButton = document.getElementById('demo-button');
+        if (demoButton) {
+          const mask = demoButton.querySelector('.demo-button-mask');
+          if (mask) {
+            mask.style.background = theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.05)';
+          }
+        }
+
+        // 列表项激活遮罩
+        const demoListItem = document.getElementById('demo-list-item');
+        if (demoListItem) {
+          const mask = demoListItem.querySelector('.demo-list-mask');
+          if (mask) {
+            mask.style.background = theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+          }
+        }
+
+        // 按钮禁用遮罩
+        const disabledButton = document.getElementById('demo-disabled-button');
+        if (disabledButton) {
+          const mask = disabledButton.querySelector('.demo-disabled-mask');
+          if (mask) {
+            mask.style.background = theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.02)';
+          }
+        }
+
+        // 对话框遮罩
+        if (dialogMask) {
+          dialogMask.style.background = theme === 'light' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.6)';
+        }
+      }
+
+      if (themeLightBtn && !themeLightBtn.hasAttribute('data-listener-attached')) {
+        themeLightBtn.setAttribute('data-listener-attached', 'true');
+        themeLightBtn.addEventListener('click', () => switchDemoTheme('light'));
+      }
+
+      if (themeDarkBtn && !themeDarkBtn.hasAttribute('data-listener-attached')) {
+        themeDarkBtn.setAttribute('data-listener-attached', 'true');
+        themeDarkBtn.addEventListener('click', () => switchDemoTheme('dark'));
+      }
+    }
+
+    // 按分类分组
+    function groupByCategory(tokens) {
+      const grouped = {};
+      tokens.forEach(token => {
+        if (!grouped[token.category]) {
+          grouped[token.category] = [];
+        }
+        grouped[token.category].push(token);
+      });
+      return grouped;
+    }
+
+    // 过滤 Token
+    function filterTokens(tokens) {
+      return tokens.filter(token => {
+        // 模式过滤
+        // 原始颜色不区分白天/暗黑模式，始终显示
+        if (token.category === '原始颜色') {
+          // 原始颜色始终显示，不受模式过滤影响
+        } else {
+          // 其他token按模式过滤
+          // 当选择暗黑模式时，只显示有 valueDark 的 token
+          if (currentFilter === 'dark' && !token.valueDark) return false;
+          // 当选择白天模式时，显示所有 token（因为它们都有 value）
+          if (currentFilter === 'light' && !token.value) return false;
+        }
+
+        // 搜索过滤
+        if (currentSearch) {
+          const searchLower = currentSearch.toLowerCase();
+          const matchTokenName = token.tokenName && token.tokenName.toLowerCase().includes(searchLower);
+          const matchName = token.name.toLowerCase().includes(searchLower) ||
+                           token.nameEn.toLowerCase().includes(searchLower);
+          // 根据当前筛选模式，搜索对应的颜色值
+          // 原始颜色只搜索value，不区分模式
+          let searchValue;
+          if (token.category === '原始颜色') {
+            searchValue = token.value.toLowerCase();
+          } else {
+            searchValue = currentFilter === 'dark' && token.valueDark 
+              ? token.valueDark.toLowerCase() 
+              : token.value.toLowerCase();
+          }
+          const matchValue = searchValue.includes(searchLower) ||
+                            (currentFilter === 'all' && token.category !== '原始颜色' && token.valueDark && token.valueDark.toLowerCase().includes(searchLower));
+          const matchCategory = token.category.toLowerCase().includes(searchLower) ||
+                               token.categoryEn.toLowerCase().includes(searchLower);
+          const matchUsage = token.usage.toLowerCase().includes(searchLower);
+          const matchComponents = token.components.some(c => c.toLowerCase().includes(searchLower));
+
+          if (!matchTokenName && !matchName && !matchValue && !matchCategory && !matchUsage && !matchComponents) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // 创建分类区块
+    function createSection(category, categoryEn, tokens) {
+      const section = document.createElement('div');
+      section.className = 'token-section';
+
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      header.innerHTML = `
+        <h2 class="section-title">${category} (${categoryEn})</h2>
+        <span class="section-count">${tokens.length} 个 Token</span>
+      `;
+
+      const table = createTable(tokens);
+
+      section.appendChild(header);
+      section.appendChild(table);
+
+      return section;
+    }
+
+    // 创建表格
+    function createTable(tokens) {
+      const table = document.createElement('table');
+      table.className = 'token-table';
+
+      // 表头
+      const thead = document.createElement('thead');
+      thead.innerHTML = `
+        <tr>
+          <th style="width: 120px;">Token 名称</th>
+          <th style="width: 150px;">名称</th>
+          <th style="width: 300px;">颜色 / 颜色值</th>
+          <th>使用场景</th>
+          <th style="width: 120px;">遮罩叠加</th>
+          <th style="width: 200px;">使用的组件</th>
+        </tr>
+      `;
+
+      // 表体
+      const tbody = document.createElement('tbody');
+      tokens.forEach(token => {
+        try {
+          const row = createTableRow(token);
+          tbody.appendChild(row);
+        } catch (error) {
+          console.error('Error creating table row for token:', token, error);
+        }
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+
+      return table;
+    }
+
+    // 创建表格行
+    function createTableRow(token) {
+      const row = document.createElement('tr');
+      
+      // 原始颜色不区分白天/暗黑模式，统一使用value
+      const isBaseColor = token.category === '原始颜色';
+      const colorValue = isBaseColor ? token.value : (currentFilter === 'dark' && token.valueDark ? token.valueDark : token.value);
+      const isTransparent = colorValue.includes('rgba');
+
+      row.innerHTML = `
+        <td>
+          <span class="token-name">${token.tokenName || 'N/A'}</span>
+        </td>
+        <td>
+          <div>
+            <div style="font-weight: 500; margin-bottom: 4px;">${token.name}</div>
+            <div style="font-size: 12px; color: #999;">${token.nameEn}</div>
+          </div>
+        </td>
+        <td>
+          <div>
+            ${!isBaseColor && currentFilter === 'all' && token.valueDark ? `
+              <div style="display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start;">
+                <div class="color-preview-dual" style="flex-shrink: 0;">
+                  <div class="color-preview-item">
+                    <span class="color-preview-item-label">☀️ 白天</span>
+                    <div class="color-swatch color-swatch-small" style="background-color: ${token.value};"></div>
+                  </div>
+                  <div class="color-preview-item">
+                    <span class="color-preview-item-label">🌙 暗黑</span>
+                    <div class="color-swatch color-swatch-small" style="background-color: ${token.valueDark};"></div>
+                  </div>
+                </div>
+                <div class="color-values-group">
+                  <div class="color-value-item">
+                    <div class="color-value" style="display: inline-block;">${token.value}</div>
+                    ${findTokenForColor(token.value) ? `<span class="color-token">${findTokenForColor(token.value)}</span>` : ''}
+                  </div>
+                  <div class="color-value-item">
+                    <div class="color-value" style="display: inline-block; background: #1a1a1a; color: #fff;">${token.valueDark}</div>
+                    ${findTokenForColor(token.valueDark) ? `<span class="color-token">${findTokenForColor(token.valueDark)}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+            ` : `
+              <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div class="color-swatch" style="background-color: ${colorValue}; flex-shrink: 0;"></div>
+                <div style="flex: 1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <div class="color-value">${colorValue}</div>
+                  ${findTokenForColor(colorValue) ? `<span class="color-token">${findTokenForColor(colorValue)}</span>` : ''}
+                </div>
+              </div>
+            `}
+          </div>
+        </td>
+        <td>
+          <div class="usage-scenarios">${token.usage}</div>
+        </td>
+        <td>
+          ${token.isOverlay ? `
+            <div style="padding: 8px; background: #fff9e6; border-left: 3px solid #ffbe00; border-radius: 4px;">
+              <div style="font-size: 11px; color: #856404; font-weight: 600; margin-bottom: 4px;">⚠️ 遮罩叠加</div>
+              <div style="font-size: 11px; color: #856404; line-height: 1.4;">
+                此颜色值需要叠加在另一个底色之上使用
+              </div>
+            </div>
+          ` : `
+            <div style="font-size: 12px; color: #999; text-align: center;">-</div>
+          `}
+        </td>
+        <td>
+          <div class="component-tags">
+            ${token.components.map(comp => `<span class="component-tag">${comp}</span>`).join('')}
+          </div>
+        </td>
+      `;
+
+      return row;
+    }
+
+    // 导出 JSON
+    function exportToJSON() {
+      const exportData = {
+        name: 'WeUI Design Tokens',
+        version: '1.0.0',
+        description: '基于微信设计规范的完整颜色系统',
+        tokens: designTokens.map(token => ({
+          tokenName: token.tokenName || '',
+          category: token.category,
+          categoryEn: token.categoryEn,
+          name: token.name,
+          nameEn: token.nameEn,
+          value: token.value,
+          valueDark: token.valueDark,
+          mode: token.mode,
+          usage: token.usage,
+          components: token.components,
+          isOverlay: token.isOverlay || false
+        }))
+      };
+
+      const jsonStr = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'weui-design-tokens.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
+

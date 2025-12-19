@@ -414,48 +414,34 @@ body {
 .use-button {
   width: 368px;
   height: 80px;
-  background-color: #F45D4C !important;
+  background-color: var(--tab-active-color);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
   padding: 0;
   opacity: 0.5;
 }
 
-[data-theme="dark"] .use-button {
-  background-color: #FF5A4D !important;
-}
-
 .use-button:not(:disabled) {
-  opacity: 1 !important;
-  background-color: #F45D4C !important;
-}
-
-[data-theme="dark"] .use-button:not(:disabled) {
-  background-color: #FF5A4D !important;
+  opacity: 1;
 }
 
 .use-button:hover:not(:disabled) {
-  opacity: 0.9 !important;
+  opacity: 0.9;
 }
 
 .use-button:active:not(:disabled) {
   transform: scale(0.98);
-  opacity: 0.8 !important;
+  opacity: 0.8;
 }
 
 .use-button:disabled {
-  opacity: 0.5 !important;
+  opacity: 0.5;
   cursor: not-allowed;
-  background-color: #F45D4C !important;
-}
-
-[data-theme="dark"] .use-button:disabled {
-  background-color: #FF5A4D !important;
 }
 
 .button-text {

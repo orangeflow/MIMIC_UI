@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeUI 设计体系文档</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      color: #1a1a1a;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #07C160 0%, #1AAD19 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      text-decoration: none;
+      color: #333;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #07C160 0%, #1AAD19 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .link-card:hover {
+      border-color: #07C160;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(7, 193, 96, 0.2);
+    }
+
+    .link-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .link-card-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .link-card h2 {
+      margin: 0 0 12px 0;
+      color: #1a1a1a;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .link-card p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid #e5e5e5;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #07C160;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 36px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>WeUI 设计体系文档</h1>
+      <p>基于微信设计规范的完整设计体系 Token 文档</p>
+    </div>
+
+    <div class="cards-grid">
+      <a href="colorToken.html" class="link-card">
+        <span class="link-card-icon">🎨</span>
+        <h2>色彩体系</h2>
+        <p>查看完整的颜色系统，包括白天和暗黑模式的对比、使用场景和组件映射</p>
+      </a>
+
+      <a href="designTokenTable.html" class="link-card">
+        <span class="link-card-icon">📊</span>
+        <h2>设计 Token 表</h2>
+        <p>查看所有设计 Token 的详细定义，包括原始颜色、文本色和组件 Token</p>
+      </a>
+
+      <a href="typographyTokenTable.html" class="link-card">
+        <span class="link-card-icon">📝</span>
+        <h2>文字样式 Token 表</h2>
+        <p>查看字体样式和文字颜色的 Token 定义，以及推荐的组合方式</p>
+      </a>
+    </div>
+
+    <div class="footer">
+      <p>WeUI 设计体系 | 基于微信设计规范</p>
+      <p><a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank">参考官方文档</a></p>
+    </div>
+  </div>
+</body>
+</html>
+
