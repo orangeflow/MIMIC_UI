@@ -12,45 +12,43 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      background: #f5f5f5;
-      color: #1a1a1a;
-      line-height: 1.6;
-      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'PingFang HK', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
     }
 
     .header {
-      background: linear-gradient(135deg, #07C160 0%, #1AAD19 100%);
-      color: white;
-      padding: 40px;
       text-align: center;
+      margin-bottom: 50px;
       position: relative;
     }
 
     .header h1 {
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 8px;
+      font-size: 48px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
     }
 
     .header p {
-      font-size: 14px;
-      opacity: 0.9;
+      font-size: 18px;
+      color: #666;
+      font-weight: 400;
     }
 
     .header-nav {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 0;
+      right: 0;
       display: flex;
       gap: 12px;
       align-items: center;
@@ -61,48 +59,97 @@
       align-items: center;
       gap: 6px;
       padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
+      background: #07C160;
       color: white;
       text-decoration: none;
       border-radius: 6px;
       font-size: 14px;
       font-weight: 500;
       transition: all 0.2s;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 2px 4px rgba(7, 193, 96, 0.2);
     }
 
     .header-nav-link:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: #06AD56;
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 8px rgba(7, 193, 96, 0.3);
     }
 
     .header-nav-link:active {
       transform: translateY(0);
     }
 
+    .page-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    .page-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      background: white;
+      color: #666;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .page-nav-link:hover {
+      border-color: #07C160;
+      color: #07C160;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(7, 193, 96, 0.15);
+    }
+
+    .page-nav-link.active {
+      background: #07C160;
+      color: white;
+      border-color: #07C160;
+      box-shadow: 0 2px 8px rgba(7, 193, 96, 0.3);
+    }
+
+    .page-nav-link.active:hover {
+      background: #06AD56;
+      transform: translateY(-1px);
+    }
+
     .toolbar {
-      padding: 20px 40px;
+      padding: 16px 40px;
       background: #fafafa;
       border-bottom: 1px solid #e5e5e5;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      gap: 24px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
 
     .toolbar-left {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 8px;
       align-items: center;
+      flex-shrink: 0;
+    }
+
+    .toolbar-separator {
+      width: 1px;
+      height: 24px;
+      background: #e5e5e5;
+      flex-shrink: 0;
     }
 
     .tab-btn {
-      padding: 8px 20px;
-      border: 2px solid #07C160;
+      padding: 8px 16px;
+      border: 1px solid #07C160;
       border-radius: 6px;
       background: white;
       color: #07C160;
@@ -110,6 +157,7 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .tab-btn:hover {
@@ -119,6 +167,7 @@
     .tab-btn.active {
       background: #07C160;
       color: white;
+      border-color: #07C160;
     }
 
     .filter-btn {
@@ -129,6 +178,7 @@
       cursor: pointer;
       font-size: 14px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .filter-btn:hover {
@@ -142,10 +192,23 @@
       border-color: #07C160;
     }
 
+    .filter-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .filter-btn:disabled:hover {
+      border-color: #e5e5e5;
+      color: #666;
+    }
+
     .toolbar-right {
       display: flex;
       gap: 12px;
       align-items: center;
+      margin-left: auto;
+      flex-shrink: 0;
     }
 
     .export-btn {
@@ -171,7 +234,8 @@
       border: 1px solid #e5e5e5;
       border-radius: 6px;
       font-size: 14px;
-      width: 250px;
+      width: 280px;
+      flex-shrink: 0;
     }
 
     .search-box:focus {
@@ -459,13 +523,44 @@
       opacity: 0.5;
     }
 
+    @media (max-width: 1024px) {
+      .toolbar {
+        padding: 16px 20px;
+        gap: 16px;
+      }
+
+      .search-box {
+        width: 200px;
+      }
+    }
+
     @media (max-width: 768px) {
+      .page-nav {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 30px;
+      }
+
+      .page-nav-link {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
       .toolbar {
         flex-direction: column;
         align-items: stretch;
+        gap: 12px;
       }
 
-      .toolbar-left,
+      .toolbar-left {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .toolbar-separator {
+        display: none;
+      }
+
       .toolbar-right {
         width: 100%;
       }
@@ -488,18 +583,6 @@
         height: 36px;
       }
 
-      .header-nav {
-        position: static;
-        justify-content: center;
-        margin-bottom: 16px;
-        top: auto;
-        right: auto;
-      }
-
-      .header-nav-link {
-        font-size: 13px;
-        padding: 6px 12px;
-      }
     }
 
     /* 交互式演示主题样式 */
@@ -579,27 +662,34 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-nav">
-        <a href="colorToken.html" class="header-nav-link">
-          <span>🎨</span>
-          <span>色彩体系</span>
-        </a>
-        <a href="typographyTokenTable.html" class="header-nav-link">
-          <span>📝</span>
-          <span>文字样式</span>
-        </a>
-      </div>
       <h1>WeUI 设计体系 Token 表</h1>
-      <p>基于微信设计规范的完整颜色系统 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank" style="color: rgba(255,255,255,0.9); text-decoration: underline;">参考官方文档</a></p>
+      <p>基于微信设计规范的完整颜色系统 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank" style="color: #07C160; text-decoration: underline;">参考官方文档</a></p>
+    </div>
+
+    <!-- 页面导航 -->
+    <div class="page-nav">
+      <a href="colorToken.html" class="page-nav-link">
+        <span>🎨</span>
+        <span>色彩体系</span>
+      </a>
+      <a href="designTokenTable.html" class="page-nav-link active">
+        <span>📊</span>
+        <span>Token 表</span>
+      </a>
+      <a href="typographyTokenTable.html" class="page-nav-link">
+        <span>📝</span>
+        <span>文字样式</span>
+      </a>
     </div>
 
     <div class="toolbar">
       <div class="toolbar-left">
-        <div style="display: flex; gap: 8px; margin-right: 24px; border-right: 1px solid #e5e5e5; padding-right: 24px;">
-          <button class="tab-btn active" data-tab="base">原始颜色</button>
-          <button class="tab-btn" data-tab="text-color">文本色</button>
-          <button class="tab-btn" data-tab="component">组件 Token</button>
-        </div>
+        <button class="tab-btn active" data-tab="base">原始颜色</button>
+        <button class="tab-btn" data-tab="text-color">文本色</button>
+        <button class="tab-btn" data-tab="component">组件 Token</button>
+      </div>
+      <div class="toolbar-separator"></div>
+      <div class="toolbar-left">
         <button class="filter-btn active" data-filter="all">全部</button>
         <button class="filter-btn" data-filter="light">白天模式</button>
         <button class="filter-btn" data-filter="dark">暗黑模式</button>
@@ -1967,6 +2057,15 @@
         console.log('Initializing...', designTokens ? designTokens.length : 'no tokens');
         renderTokens();
         setupEventListeners();
+        
+        // 初始化时，如果默认选中"原始颜色"，禁用白天/暗黑模式按钮
+        if (currentTab === 'base') {
+          const lightBtn = document.querySelector('.filter-btn[data-filter="light"]');
+          const darkBtn = document.querySelector('.filter-btn[data-filter="dark"]');
+          if (lightBtn) lightBtn.disabled = true;
+          if (darkBtn) darkBtn.disabled = true;
+        }
+        
         console.log('Initialization complete');
       } catch (error) {
         console.error('Initialization error:', error);
@@ -1990,6 +2089,29 @@
           document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentTab = btn.getAttribute('data-tab');
+          
+          // 如果选中"原始颜色"，禁用白天/暗黑模式按钮
+          const lightBtn = document.querySelector('.filter-btn[data-filter="light"]');
+          const darkBtn = document.querySelector('.filter-btn[data-filter="dark"]');
+          const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+          
+          if (currentTab === 'base') {
+            // 禁用白天和暗黑模式按钮
+            if (lightBtn) lightBtn.disabled = true;
+            if (darkBtn) darkBtn.disabled = true;
+            
+            // 自动设置为"全部"
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (allBtn) {
+              allBtn.classList.add('active');
+              currentFilter = 'all';
+            }
+          } else {
+            // 启用白天和暗黑模式按钮
+            if (lightBtn) lightBtn.disabled = false;
+            if (darkBtn) darkBtn.disabled = false;
+          }
+          
           renderTokens();
         });
       });
@@ -1997,6 +2119,11 @@
       // 过滤按钮
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
+          // 如果当前是"原始颜色"tab，且点击的是白天/暗黑模式按钮，则阻止
+          if (currentTab === 'base' && (btn.getAttribute('data-filter') === 'light' || btn.getAttribute('data-filter') === 'dark')) {
+            return;
+          }
+          
           document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentFilter = btn.getAttribute('data-filter');

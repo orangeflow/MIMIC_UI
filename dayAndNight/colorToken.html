@@ -79,36 +79,96 @@
       transform: translateY(0);
     }
 
-    .tab-container {
+    .page-nav {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 30px;
-      border-bottom: 2px solid #e5e5e5;
-      padding-bottom: 0;
+      gap: 8px;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    .page-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      background: white;
+      color: #666;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .page-nav-link:hover {
+      border-color: #07C160;
+      color: #07C160;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(7, 193, 96, 0.15);
+    }
+
+    .page-nav-link.active {
+      background: #07C160;
+      color: white;
+      border-color: #07C160;
+      box-shadow: 0 2px 8px rgba(7, 193, 96, 0.3);
+    }
+
+    .page-nav-link.active:hover {
+      background: #06AD56;
+      transform: translateY(-1px);
+    }
+
+    .toolbar {
+      padding: 16px 40px;
+      background: #fafafa;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-bottom: 0;
+    }
+
+    .toolbar-left {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .toolbar-separator {
+      width: 1px;
+      height: 24px;
+      background: #e5e5e5;
+      flex-shrink: 0;
     }
 
     .tab-btn {
-      padding: 14px 32px;
-      border: none;
-      border-bottom: 3px solid transparent;
-      background: transparent;
-      color: #666;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      bottom: -2px;
-    }
-
-    .tab-btn.active {
+      padding: 8px 16px;
+      border: 1px solid #07C160;
+      border-radius: 6px;
+      background: white;
       color: #07C160;
-      border-bottom-color: #07C160;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .tab-btn:hover {
-      color: #07C160;
+      background: #f0fdf4;
+    }
+
+    .tab-btn.active {
+      background: #07C160;
+      color: white;
+      border-color: #07C160;
     }
 
     .tab-content {
@@ -119,33 +179,34 @@
       display: block;
     }
 
-    .theme-toggle-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .theme-btn {
-      padding: 12px 32px;
-      border: 2px solid #07C160;
-      border-radius: 8px;
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
       background: white;
-      color: #07C160;
-      font-size: 16px;
-      font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      font-size: 14px;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
 
-    .theme-btn.active {
+    .filter-btn:hover {
+      border-color: #07C160;
+      color: #07C160;
+    }
+
+    .filter-btn.active {
       background: #07C160;
       color: white;
+      border-color: #07C160;
     }
 
-    .theme-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(7, 193, 96, 0.3);
+    .toolbar-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-left: auto;
+      flex-shrink: 0;
     }
 
     .color-grid {
@@ -555,14 +616,15 @@
 
     .mapping-filter-btn {
       padding: 8px 16px;
-      border: 2px solid #e5e5e5;
+      border: 1px solid #e5e5e5;
       border-radius: 6px;
       background: white;
       color: #666;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .mapping-filter-btn:hover {
@@ -676,7 +738,44 @@
       }
     }
 
+    @media (max-width: 1024px) {
+      .toolbar {
+        padding: 16px 20px;
+        gap: 16px;
+      }
+    }
+
     @media (max-width: 768px) {
+      .page-nav {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 30px;
+      }
+
+      .page-nav-link {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .toolbar-left {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .toolbar-separator {
+        display: none;
+      }
+
+      .toolbar-right {
+        width: 100%;
+      }
+
       .comparison-grid {
         grid-template-columns: 1fr;
       }
@@ -687,17 +786,6 @@
 
       .header h1 {
         font-size: 36px;
-      }
-
-      .header-nav {
-        position: static;
-        justify-content: center;
-        margin-bottom: 16px;
-      }
-
-      .header-nav-link {
-        font-size: 13px;
-        padding: 6px 12px;
       }
 
       .color-mapping-table {
@@ -715,42 +803,51 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-nav">
-        <a href="designTokenTable.html" class="header-nav-link">
-          <span>📊</span>
-          <span>Token 表</span>
-        </a>
-        <a href="typographyTokenTable.html" class="header-nav-link">
-          <span>📝</span>
-          <span>文字样式</span>
-        </a>
-      </div>
       <h1>WeUI 色彩体系</h1>
       <p>白天模式与暗黑模式色彩对比 | <a href="https://weui-multi-platform.pages.woa.com/guide/" target="_blank" style="color: #07C160; text-decoration: underline;">参考官方文档</a></p>
     </div>
 
-    <!-- TAB 切换 -->
-    <div class="tab-container">
-      <button class="tab-btn active" onclick="switchTab('components')">按组件查看</button>
-      <button class="tab-btn" onclick="switchTab('colors')">按颜色查看</button>
+    <!-- 页面导航 -->
+    <div class="page-nav">
+      <a href="colorToken.html" class="page-nav-link active">
+        <span>🎨</span>
+        <span>色彩体系</span>
+      </a>
+      <a href="designTokenTable.html" class="page-nav-link">
+        <span>📊</span>
+        <span>Token 表</span>
+      </a>
+      <a href="typographyTokenTable.html" class="page-nav-link">
+        <span>📝</span>
+        <span>文字样式</span>
+      </a>
     </div>
 
-    <!-- 按组件查看的内容 -->
-    <div id="componentsTab" class="tab-content active">
-      <div class="theme-toggle-container">
-        <button class="theme-btn active" onclick="showTheme('all')">全部显示</button>
-        <button class="theme-btn" onclick="showTheme('light')">白天模式</button>
-        <button class="theme-btn" onclick="showTheme('dark')">暗黑模式</button>
-        <div style="display: flex; align-items: center; gap: 8px; padding-left: 16px; border-left: 1px solid #e5e5e5;">
-          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; color: #666;">
-            <input type="checkbox" id="groupByColorFamilyComponents" onchange="toggleColorFamilyGroupingComponents()" style="width: 18px; height: 18px; cursor: pointer;">
-            <span>按色系排列</span>
-          </label>
-        </div>
+    <!-- TAB 切换和筛选 -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="tab-btn active" onclick="switchTab('comparison')">色彩对比</button>
+        <button class="tab-btn" onclick="switchTab('components')">按组件查看</button>
+        <button class="tab-btn" onclick="switchTab('colors')">按颜色查看</button>
       </div>
+      <div class="toolbar-separator"></div>
+      <div class="toolbar-left" id="themeFilterContainer">
+        <button class="filter-btn active" onclick="showTheme('all')">全部显示</button>
+        <button class="filter-btn" onclick="showTheme('light')">白天模式</button>
+        <button class="filter-btn" onclick="showTheme('dark')">暗黑模式</button>
+      </div>
+      <div class="toolbar-right">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; color: #666;">
+          <input type="checkbox" id="groupByColorFamilyComponents" onchange="toggleColorFamilyGroupingComponents()" style="width: 18px; height: 18px; cursor: pointer;">
+          <span>按色系排列</span>
+        </label>
+      </div>
+    </div>
 
-    <!-- 对比展示区域 -->
-    <div class="comparison-section" id="comparisonSection">
+    <!-- 色彩对比的内容 -->
+    <div id="comparisonTab" class="tab-content active">
+      <!-- 对比展示区域 -->
+      <div class="comparison-section" id="comparisonSection">
       <h2>色彩对比</h2>
       <div class="comparison-grid">
         <!-- 白天模式 -->
@@ -876,9 +973,12 @@
         </div>
       </div>
     </div>
+    </div>
 
-    <!-- 详细颜色列表 -->
-    <div class="color-grid" id="colorGrid">
+    <!-- 按组件查看的内容 -->
+    <div id="componentsTab" class="tab-content">
+      <!-- 详细颜色列表 -->
+      <div class="color-grid" id="colorGrid">
       <!-- 背景色 -->
       <div class="color-card" id="component-背景色">
         <h3>背景色 (Background Colors)</h3>
@@ -2364,7 +2464,7 @@
       const tabButtons = document.querySelectorAll('.tab-btn');
       tabButtons.forEach((btn, index) => {
         btn.classList.remove('active');
-        if ((tab === 'components' && index === 0) || (tab === 'colors' && index === 1)) {
+        if ((tab === 'comparison' && index === 0) || (tab === 'components' && index === 1) || (tab === 'colors' && index === 2)) {
           btn.classList.add('active');
         }
       });
@@ -2373,7 +2473,9 @@
       const tabContents = document.querySelectorAll('.tab-content');
       tabContents.forEach(content => content.classList.remove('active'));
 
-      if (tab === 'components') {
+      if (tab === 'comparison') {
+        document.getElementById('comparisonTab').classList.add('active');
+      } else if (tab === 'components') {
         document.getElementById('componentsTab').classList.add('active');
       } else if (tab === 'colors') {
         document.getElementById('colorsTab').classList.add('active');
@@ -2493,23 +2595,103 @@
     }
 
     function showTheme(theme) {
-      const buttons = document.querySelectorAll('.theme-btn');
+      const buttons = document.querySelectorAll('.filter-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const comparisonSection = document.getElementById('comparisonSection');
+      const colorGrid = document.getElementById('colorGrid');
+      const colorItems = document.querySelectorAll('.color-item');
+      const themeColumns = document.querySelectorAll('.theme-column');
       
+      // 获取"按颜色查看"模式下的表格行
+      const colorMappingRows = document.querySelectorAll('#colorMappingBody tr');
+
       if (theme === 'all') {
-        event.target.classList.add('active');
-        document.getElementById('comparisonSection').style.display = 'block';
-        document.getElementById('colorGrid').style.display = 'grid';
+        // 显示所有内容
+        if (comparisonSection) comparisonSection.style.display = 'block';
+        if (colorGrid) colorGrid.style.display = 'grid';
+        
+        // 显示所有颜色项
+        colorItems.forEach(item => {
+          item.style.display = 'flex';
+        });
+        
+        // 显示所有对比列
+        themeColumns.forEach(column => {
+          column.style.display = 'block';
+        });
+        
+        // 显示所有表格行（按颜色查看模式）
+        colorMappingRows.forEach(row => {
+          row.style.display = '';
+        });
       } else if (theme === 'light') {
-        event.target.classList.add('active');
-        document.getElementById('comparisonSection').style.display = 'none';
-        // 可以添加只显示白天模式的逻辑
-        document.getElementById('colorGrid').style.display = 'grid';
+        // 只显示白天模式
+        if (comparisonSection) comparisonSection.style.display = 'block';
+        if (colorGrid) colorGrid.style.display = 'grid';
+        
+        // 只显示包含 (Light) 的颜色项
+        colorItems.forEach(item => {
+          const colorName = item.querySelector('.color-name');
+          if (colorName && colorName.textContent.includes('(Light)')) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // 只显示白天模式对比列
+        themeColumns.forEach(column => {
+          if (column.classList.contains('light')) {
+            column.style.display = 'block';
+          } else {
+            column.style.display = 'none';
+          }
+        });
+        
+        // 只显示白天模式的表格行（按颜色查看模式）
+        colorMappingRows.forEach(row => {
+          const mode = row.getAttribute('data-mode');
+          if (mode === 'light') {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
       } else if (theme === 'dark') {
-        event.target.classList.add('active');
-        document.getElementById('comparisonSection').style.display = 'none';
-        // 可以添加只显示暗黑模式的逻辑
-        document.getElementById('colorGrid').style.display = 'grid';
+        // 只显示暗黑模式
+        if (comparisonSection) comparisonSection.style.display = 'block';
+        if (colorGrid) colorGrid.style.display = 'grid';
+        
+        // 只显示包含 (Dark) 的颜色项
+        colorItems.forEach(item => {
+          const colorName = item.querySelector('.color-name');
+          if (colorName && colorName.textContent.includes('(Dark)')) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // 只显示暗黑模式对比列
+        themeColumns.forEach(column => {
+          if (column.classList.contains('dark')) {
+            column.style.display = 'block';
+          } else {
+            column.style.display = 'none';
+          }
+        });
+        
+        // 只显示暗黑模式的表格行（按颜色查看模式）
+        colorMappingRows.forEach(row => {
+          const mode = row.getAttribute('data-mode');
+          if (mode === 'dark') {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
       }
     }
 
