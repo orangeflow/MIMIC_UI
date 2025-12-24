@@ -1,6 +1,6 @@
-# Next.js React 应用
+# Next.js 支付应用
 
-基于 Next.js 和 React 的现代 Web 应用。
+基于 Next.js 和 React 的 NFC 支付应用。
 
 ## 项目结构
 
@@ -11,16 +11,10 @@ nextjs-app/
 │   ├── page.tsx          # 首页
 │   └── globals.css       # 全局样式
 ├── components/            # React 组件
-│   ├── PaymentButton.tsx
-│   ├── PaymentCard.tsx
-│   ├── PaymentInterface.tsx
-│   ├── NFCIcon.tsx
-│   └── RedPacket/         # 红包相关组件
-│       ├── RedPacketButton.tsx
-│       ├── RedPacketCard.tsx
-│       ├── RedPacketIcon.tsx
-│       ├── RedPacketList.tsx
-│       └── index.ts
+│   ├── PaymentButton.tsx  # 支付按钮组件
+│   ├── PaymentCard.tsx    # 支付卡片组件
+│   ├── PaymentInterface.tsx # 支付界面组件
+│   └── NFCIcon.tsx        # NFC 图标组件
 ├── next.config.js         # Next.js 配置文件
 ├── package.json           # 项目依赖配置
 ├── tsconfig.json          # TypeScript 配置
@@ -40,14 +34,15 @@ npm run dev
 
 ## 组件说明
 
-### 支付相关
+### 支付相关组件
 - `PaymentButton` - 支付按钮组件
 - `PaymentCard` - 支付卡片组件
-- `PaymentInterface` - 支付界面组件
+- `PaymentInterface` - 支付界面组件（主组件）
 - `NFCIcon` - NFC 图标组件
 
-### 红包相关
-- `RedPacketButton` - 红包按钮
-- `RedPacketCard` - 红包卡片
-- `RedPacketIcon` - 红包图标
-- `RedPacketList` - 红包列表
+## 功能
+
+- NFC 支付界面
+- 支付状态管理
+- 支付卡片展示
+- 支付按钮交互

@@ -1,6 +1,6 @@
-# 移动应用 HTML 页面
+# Web3 Wallet 移动应用
 
-移动端 Web 应用的 HTML 页面集合。
+Web3 钱包移动端 Web 应用的 HTML 页面集合。
 
 ## 文件说明
 
@@ -9,12 +9,6 @@
 - **app.js** - 应用主逻辑脚本
 - **script.js** - 通用脚本
 - **styles.css** - 全局样式文件
-
-## 相关页面
-
-红包相关页面位于 `../weui-docs/` 目录：
-- redpacket.html - 红包封面选择
-- success.html - 支付成功页面
 
 ## 使用方法
 

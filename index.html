@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Figma Playground - 项目导航</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'PingFang HK', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .header p {
+      font-size: 18px;
+      color: #666;
+      font-weight: 400;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .project-card {
+      display: block;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      text-decoration: none;
+      color: #333;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #07C160 0%, #1AAD19 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: #07C160;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(7, 193, 96, 0.2);
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .project-card h2 {
+      margin: 0 0 12px 0;
+      color: #1a1a1a;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .project-card p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .project-links {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .project-links a {
+      display: inline-block;
+      margin-right: 12px;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background: #f5f5f5;
+      color: #07C160;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .project-links a:hover {
+      background: #07C160;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid #e5e5e5;
+      color: #999;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 36px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Figma Playground</h1>
+      <p>项目导航中心 - 选择要查看的项目</p>
+    </div>
+
+    <div class="projects-grid">
+      <!-- WeUI 设计体系文档 -->
+      <a href="weui-docs/index.html" class="project-card">
+        <span class="project-icon">🎨</span>
+        <h2>WeUI 设计体系文档</h2>
+        <p>完整的 WeUI 设计体系 Token 文档，包括色彩体系、设计 Token 表和文字样式 Token 表</p>
+        <div class="project-links">
+          <span>查看文档</span>
+        </div>
+      </a>
+
+      <!-- Web3 Wallet 移动应用 -->
+      <a href="mobile-app/index.html" class="project-card">
+        <span class="project-icon">💼</span>
+        <h2>Web3 Wallet 移动应用</h2>
+        <p>Web3 钱包的移动端 Web 应用，包含注册/登录流程和输入手机号页面</p>
+        <div class="project-links">
+          <span>查看应用</span>
+        </div>
+      </a>
+
+      <!-- 红包应用 -->
+      <a href="redpacket-app/redpacket.html" class="project-card">
+        <span class="project-icon">🧧</span>
+        <h2>红包应用</h2>
+        <p>红包功能的完整实现，包含红包封面选择页面、支付成功页面和 React 组件</p>
+        <div class="project-links">
+          <a href="redpacket-app/redpacket.html">封面选择</a>
+          <a href="redpacket-app/success.html">支付成功</a>
+        </div>
+      </a>
+
+      <!-- Next.js 支付应用 -->
+      <div class="project-card" style="cursor: default;">
+        <span class="project-icon">💳</span>
+        <h2>Next.js 支付应用</h2>
+        <p>基于 Next.js 的 NFC 支付应用，包含支付界面和交互逻辑</p>
+        <div class="project-links">
+          <span style="color: #999; font-size: 12px;">需要运行: cd nextjs-app && npm run dev</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Figma Playground | 项目集合</p>
+    </div>
+  </div>
+</body>
+</html>
