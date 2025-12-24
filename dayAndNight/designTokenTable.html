@@ -13,7 +13,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'PingFang HK', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: #ffffff;
       min-height: 100vh;
       padding: 40px 20px;
       -webkit-font-smoothing: antialiased;
@@ -92,39 +92,37 @@
       align-items: center;
       gap: 6px;
       padding: 10px 24px;
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      background: white;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: transparent;
       color: #666;
       text-decoration: none;
       font-size: 15px;
       font-weight: 500;
       transition: all 0.2s;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: none;
     }
 
     .page-nav-link:hover {
-      border-color: #07C160;
       color: #07C160;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(7, 193, 96, 0.15);
+      border-bottom-color: rgba(7, 193, 96, 0.3);
     }
 
     .page-nav-link.active {
-      background: #07C160;
-      color: white;
-      border-color: #07C160;
-      box-shadow: 0 2px 8px rgba(7, 193, 96, 0.3);
+      background: transparent;
+      color: #07C160;
+      border-bottom-color: #07C160;
+      box-shadow: none;
     }
 
     .page-nav-link.active:hover {
-      background: #06AD56;
-      transform: translateY(-1px);
+      color: #07C160;
+      border-bottom-color: #07C160;
     }
 
     .toolbar {
       padding: 16px 40px;
-      background: #fafafa;
+      background: transparent;
       border-bottom: 1px solid #e5e5e5;
       display: flex;
       align-items: center;

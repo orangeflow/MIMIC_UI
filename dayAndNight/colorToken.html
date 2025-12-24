@@ -13,7 +13,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'PingFang HK', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: #ffffff;
       min-height: 100vh;
       padding: 40px 20px;
       -webkit-font-smoothing: antialiased;
@@ -92,39 +92,37 @@
       align-items: center;
       gap: 6px;
       padding: 10px 24px;
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      background: white;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: transparent;
       color: #666;
       text-decoration: none;
       font-size: 15px;
       font-weight: 500;
       transition: all 0.2s;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: none;
     }
 
     .page-nav-link:hover {
-      border-color: #07C160;
       color: #07C160;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(7, 193, 96, 0.15);
+      border-bottom-color: rgba(7, 193, 96, 0.3);
     }
 
     .page-nav-link.active {
-      background: #07C160;
-      color: white;
-      border-color: #07C160;
-      box-shadow: 0 2px 8px rgba(7, 193, 96, 0.3);
+      background: transparent;
+      color: #07C160;
+      border-bottom-color: #07C160;
+      box-shadow: none;
     }
 
     .page-nav-link.active:hover {
-      background: #06AD56;
-      transform: translateY(-1px);
+      color: #07C160;
+      border-bottom-color: #07C160;
     }
 
     .toolbar {
       padding: 16px 40px;
-      background: #fafafa;
+      background: transparent;
       border-bottom: 1px solid #e5e5e5;
       display: flex;
       align-items: center;
@@ -354,6 +352,7 @@
       border-radius: 4px;
       border: 1px solid #e0e0e0;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .color-token:hover {
@@ -2372,6 +2371,47 @@
       return null;
     }
 
+    // 查找 Token 对应的颜色值（反向查找）
+    function findColorForToken(tokenName) {
+      if (!tokenName) return null;
+      // 遍历 baseColorTokens，找到匹配的 token
+      for (const [colorValue, token] of Object.entries(baseColorTokens)) {
+        if (token === tokenName) {
+          return colorValue;
+        }
+      }
+      return null;
+    }
+
+    // 为TOKEN标签添加点击事件（用于已存在的TOKEN标签）
+    function attachTokenClickEvents() {
+      const tokenElements = document.querySelectorAll('.color-token');
+      tokenElements.forEach(tokenElement => {
+        // 如果已经有data-color-value属性，说明已经添加过事件，跳过
+        if (tokenElement.hasAttribute('data-color-value')) {
+          return;
+        }
+        
+        // 尝试从父元素中找到颜色值
+        const parentElement = tokenElement.parentElement;
+        const colorValueElement = parentElement.querySelector('.color-value');
+        if (colorValueElement) {
+          const colorValue = colorValueElement.textContent.trim();
+          const token = tokenElement.textContent.trim();
+          tokenElement.setAttribute('data-color-value', colorValue);
+          tokenElement.setAttribute('data-token', token);
+          tokenElement.title = `点击跳转到"按颜色查看"中的对应颜色: ${token}`;
+          tokenElement.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const colorVal = this.getAttribute('data-color-value');
+            if (colorVal) {
+              scrollToColorInMapping(colorVal);
+            }
+          });
+        }
+      });
+    }
+
     // 为所有颜色值添加 Token 标注
     function addTokenLabels() {
       const colorValues = document.querySelectorAll('.color-value');
@@ -2386,10 +2426,24 @@
           const tokenElement = document.createElement('span');
           tokenElement.className = 'color-token';
           tokenElement.textContent = token;
-          tokenElement.title = `原始颜色 Token: ${token}`;
+          tokenElement.title = `点击跳转到"按颜色查看"中的对应颜色: ${token}`;
+          // 存储颜色值，用于点击跳转
+          tokenElement.setAttribute('data-color-value', colorValue);
+          tokenElement.setAttribute('data-token', token);
+          // 添加点击事件
+          tokenElement.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const colorVal = this.getAttribute('data-color-value');
+            if (colorVal) {
+              scrollToColorInMapping(colorVal);
+            }
+          });
           element.parentElement.appendChild(tokenElement);
         }
       });
+      
+      // 为所有已存在的TOKEN标签添加点击事件
+      attachTokenClickEvents();
     }
 
     // 从 DOM 自动提取颜色到组件的映射
@@ -3374,8 +3428,17 @@
             const tokenSpan = document.createElement('span');
             tokenSpan.className = 'color-token';
             tokenSpan.textContent = lightToken;
-            tokenSpan.title = `原始颜色 Token: ${lightToken}`;
+            tokenSpan.title = `点击跳转到"按颜色查看"中的对应颜色: ${lightToken}`;
             tokenSpan.style.cssText = 'display: inline-flex; align-items: center; white-space: nowrap;';
+            tokenSpan.setAttribute('data-color-value', lightValue);
+            tokenSpan.setAttribute('data-token', lightToken);
+            tokenSpan.addEventListener('click', function(e) {
+              e.stopPropagation();
+              const colorVal = this.getAttribute('data-color-value');
+              if (colorVal) {
+                scrollToColorInMapping(colorVal);
+              }
+            });
             lightValueDiv.appendChild(tokenSpan);
           }
           
@@ -3406,8 +3469,17 @@
             const tokenSpan = document.createElement('span');
             tokenSpan.className = 'color-token';
             tokenSpan.textContent = darkToken;
-            tokenSpan.title = `原始颜色 Token: ${darkToken}`;
+            tokenSpan.title = `点击跳转到"按颜色查看"中的对应颜色: ${darkToken}`;
             tokenSpan.style.cssText = 'display: inline-flex; align-items: center; white-space: nowrap;';
+            tokenSpan.setAttribute('data-color-value', darkValue);
+            tokenSpan.setAttribute('data-token', darkToken);
+            tokenSpan.addEventListener('click', function(e) {
+              e.stopPropagation();
+              const colorVal = this.getAttribute('data-color-value');
+              if (colorVal) {
+                scrollToColorInMapping(colorVal);
+              }
+            });
             darkValueDiv.appendChild(tokenSpan);
           }
           
@@ -3498,6 +3570,9 @@
 
       // 为所有颜色值添加 Token 标注
       addTokenLabels();
+      
+      // 为所有已存在的TOKEN标签添加点击事件
+      attachTokenClickEvents();
 
       // 使用事件委托处理颜色值点击
       document.addEventListener('click', function(e) {
